@@ -1,0 +1,15 @@
+{
+    "news": [
+        {
+            "id": 1,
+            "title": "Teszt hír",
+            "date": "2026-05-25",
+            "type": "Bejelentés",
+            "text": "Ez egy próba hír a REST API teszteléséhez.",
+            "image": "https://picsum.photos/1000/700?random=999"
+        }
+    ],
+    "concerts": [],
+    "timeline": [],
+    "messages": []
+}
