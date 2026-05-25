@@ -1,0 +1,12 @@
+- Kezdőlap
+- Bandatagok
+    - Tomi
+    - Bence
+    - Bence
+    - Olivér
+    - Peti
+    - Márk(?)
+- Koncertek
+- Galéria
+- Hírek
+- Kapcsolat

@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Maw of the Void</title>
+
+    <script type="module" src="../javascript/mode-valtas.js" defer></script>
+    <script type="module" src="../javascript/admin-koncertek.js" defer></script>
+    <script type="module" src="../javascript/admin-galeria.js" defer></script>
+    <script type="module" src="../javascript/admin-hirek.js" defer></script>
+    <script type="module" src="../javascript/admin-timeline.js" defer></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="../stiluslapok/alap.css">
+    <link rel="stylesheet" href="../stiluslapok/admin.css">
+</head>
+
+<body>
+
+    <button id="kapcsolo">
+        <img src="../kepek/ikonok/holdacska.svg" alt="Sötét mód">
+        <img src="../kepek/ikonok/napocska.svg" alt="Világos mód">
+    </button>
+
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid">
+
+            <a class="navbar-brand" href="index.html">Maw of the Void</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Menü megnyitása">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav ms-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="admin.html">Admin</a>
+                    </li>
+
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+
+
+    <main class="main-bg">
+
+        <section id="loginSection" class="admin-login-section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5 col-md-7">
+
+                        <div class="admin-card">
+                            <div class="text-center mb-4">
+                                <p class="text-accent fw-bold text-uppercase mb-2">
+                                    Koncertkezelő
+                                </p>
+
+                                <h1 class="admin-login-title">
+                                    Belépés
+                                </h1>
+
+                                <p class="text-muted-custom">
+                                    Csak belépés után tudod szerkeszteni a koncerteket.
+                                </p>
+                            </div>
+
+                            <form id="loginForm">
+
+                                <div class="mb-3">
+                                    <label for="username" class="form-label">Felhasználónév</label>
+                                    <input type="text" id="username" class="form-control" autocomplete="username"
+                                        required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Jelszó</label>
+                                    <input type="password" id="password" class="form-control"
+                                        autocomplete="current-password" required>
+                                </div>
+
+                                <p id="loginError" class="login-error d-none">
+                                    Hibás felhasználónév vagy jelszó.
+                                </p>
+
+                                <button type="submit" class="btn btn-custom w-100">
+                                    Belépés
+                                </button>
+
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="adminSection" class="d-none">
+
+            <section class="admin-hero">
+                <div class="container text-center">
+
+                    <p class="text-accent fw-bold text-uppercase mb-2">
+                        Koncertkezelő
+                    </p>
+
+                    <h1 class="admin-title">
+                        Admin felület
+                    </h1>
+
+                    <p class="lead text-muted-custom mt-3 mx-auto" style="max-width: 850px;">
+                        Itt tudsz új koncerteket hozzáadni, meglévőket szerkeszteni vagy törölni.
+                    </p>
+
+                    <button id="logoutButton" class="btn btn-custom mt-3">
+                        Kijelentkezés
+                    </button>
+
+                </div>
+            </section>
+
+
+            <section class="admin-section">
+                <div class="container">
+
+                    <div class="row g-4">
+
+                        <div class="col-lg-6">
+                            <div class="admin-card">
+                                <h2 class="section-title text-accent mb-4">
+                                    Új koncert hozzáadása / szerkesztése
+                                </h2>
+
+                                <form id="concertForm">
+
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Koncert neve</label>
+                                        <input type="text" id="name" class="form-control" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="date" class="form-label">Dátum</label>
+                                        <input type="date" id="date" class="form-control" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="time" class="form-label">Időpont</label>
+                                        <input type="time" id="time" class="form-control" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="place" class="form-label">Helyszín neve</label>
+                                        <input type="text" id="place" class="form-control"
+                                            placeholder="Pl. Puskás Aréna" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="address" class="form-label">Pontos cím Google Maps alapján</label>
+                                        <input type="text" id="address" class="form-control"
+                                            placeholder="Pl. Puskás Aréna, Budapest vagy Google Maps link" required>
+
+                                        <small class="text-muted-custom">
+                                            Ide beírhatod a pontos címet, például: Puskás Aréna, Budapest.
+                                            Vagy bemásolhatsz egy Google Maps linket is.
+                                        </small>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="status" class="form-label">Státusz</label>
+                                        <select id="status" class="form-select" required>
+                                            <option value="open">Látogatható</option>
+                                            <option value="private">Privát</option>
+                                            <option value="not-open">Nem látogatható</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="entry" class="form-label">Belépés</label>
+                                        <textarea id="entry" class="form-control" rows="2" required></textarea>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="ticketOption" class="form-label">Jegy</label>
+                                        <select id="ticketOption" class="form-select" required>
+                                            <option value="no-ticket">Nem lehet jegyet venni</option>
+                                            <option value="ticket-link">Jegyvásárlás linkkel</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3 d-none" id="ticketLinkBox">
+                                        <label for="ticketLink" class="form-label">Jegyvásárlási link</label>
+                                        <input type="url" id="ticketLink" class="form-control"
+                                            placeholder="https://...">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="streamOption" class="form-label">Élő adás</label>
+                                        <select id="streamOption" class="form-select" required>
+                                            <option value="no-stream">Nem fog készülni róla élő adás</option>
+                                            <option value="stream-link">Fog készülni róla élő adás</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3 d-none" id="streamLinkBox">
+                                        <label for="streamLink" class="form-label">Élő adás linkje</label>
+                                        <input type="url" id="streamLink" class="form-control"
+                                            placeholder="https://...">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="recordingOption" class="form-label">Felvétel</label>
+                                        <select id="recordingOption" class="form-select" required>
+                                            <option value="no-recording">Nem fog készülni róla felvétel</option>
+                                            <option value="recording-link">Fog készülni róla felvétel</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3 d-none" id="recordingLinkBox">
+                                        <label for="recordingLink" class="form-label">Felvétel linkje</label>
+                                        <input type="url" id="recordingLink" class="form-control"
+                                            placeholder="https://...">
+
+                                        <small class="text-muted-custom">
+                                            Ezt később is kitöltheted, ha még nincs meg a videó linkje.
+                                        </small>
+                                    </div>
+
+                                    <input type="hidden" id="editIndex" value="">
+
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <button type="submit" id="saveConcertButton" class="btn btn-custom">
+                                            Koncert hozzáadása
+                                        </button>
+
+                                        <button type="button" id="cancelEditButton" class="btn btn-custom d-none">
+                                            Szerkesztés megszakítása
+                                        </button>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-6">
+                            <div class="admin-card">
+                                <h2 class="section-title text-accent mb-4">
+                                    Eddigi koncertek
+                                </h2>
+
+                                <div id="adminConcertList" class="admin-list">
+                                    Betöltés...
+                                </div>
+
+                                <div class="d-flex flex-wrap gap-2 mt-4">
+                                    <button id="clearConcerts" class="btn btn-custom">
+                                        Összes koncert törlése
+                                    </button>
+
+                                    <button id="resetConcerts" class="btn btn-custom">
+                                        Alap koncertek visszaállítása
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <section class="admin-section-alt">
+                        <div class="container">
+
+                            <div class="admin-section-header">
+                                <h2>
+                                    Galéria kezelése
+                                </h2>
+
+                                <p>
+                                    Itt tudsz új képalbumot létrehozni és képeket feltölteni hozzá.
+                                </p>
+                            </div>
+
+                            <div class="row g-4">
+
+                                <div class="col-lg-6">
+                                    <div class="admin-card">
+                                        <h3 class="text-accent fw-bold mb-4">
+                                            Új galéria-album
+                                        </h3>
+
+                                        <form id="galleryForm">
+
+                                            <div class="mb-3">
+                                                <label for="galleryTitle" class="form-label">Album neve</label>
+                                                <input type="text" id="galleryTitle" class="form-control"
+                                                    placeholder="Pl. UMSZKI 100 koncert" required>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="galleryDate" class="form-label">Dátum</label>
+                                                <input type="date" id="galleryDate" class="form-control" required>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="galleryDescription" class="form-label">Leírás</label>
+                                                <textarea id="galleryDescription" class="form-control" rows="3"
+                                                    required></textarea>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="galleryImages" class="form-label">Képek feltöltése</label>
+                                                <input type="file" id="galleryImages" class="form-control"
+                                                    accept="image/*" multiple required>
+
+                                                <small class="text-muted-custom">
+                                                    Több képet is kijelölhetsz egyszerre. Most localStorage-be ment,
+                                                    ezért kisebb képekkel teszteld.
+                                                </small>
+                                            </div>
+
+                                            <button type="submit" class="btn btn-custom">
+                                                Album hozzáadása
+                                            </button>
+
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="admin-card">
+                                        <h3 class="text-accent fw-bold mb-4">
+                                            Feltöltött albumok
+                                        </h3>
+
+                                        <div id="adminGalleryList">
+                                            Betöltés...
+                                        </div>
+
+                                        <button id="resetGalleryAlbums" class="btn btn-custom mt-4">
+                                            Alap galéria visszaállítása
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </section>
+
+                    <section class="admin-section admin-news-section">
+                        <div class="container">
+
+                            <div class="admin-section-header">
+                                <h2>
+                                    Hírek kezelése
+                                </h2>
+
+                                <p>
+                                    Itt tudsz új híreket hozzáadni, szerkeszteni vagy törölni.
+                                </p>
+                            </div>
+
+                            <div class="row g-4">
+
+                                <div class="col-lg-6">
+                                    <div class="admin-card">
+                                        <h3 class="text-accent fw-bold mb-4">
+                                            Új hír hozzáadása / szerkesztése
+                                        </h3>
+
+                                        <form id="newsForm">
+
+                                            <div class="mb-3">
+                                                <label for="newsTitle" class="form-label">Hír címe</label>
+                                                <input type="text" id="newsTitle" class="form-control" required>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="newsDate" class="form-label">Dátum</label>
+                                                <input type="date" id="newsDate" class="form-control" required>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="newsType" class="form-label">Hír típusa</label>
+                                                <select id="newsType" class="form-select" required>
+                                                    <option value="Bejelentés">Bejelentés</option>
+                                                    <option value="Koncert">Koncert</option>
+                                                    <option value="Próba">Próba</option>
+                                                    <option value="Galéria">Galéria</option>
+                                                    <option value="Egyéb">Egyéb</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="newsText" class="form-label">Hír szövege</label>
+                                                <textarea id="newsText" class="form-control" rows="6"
+                                                    required></textarea>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="newsImage" class="form-label">Kép feltöltése
+                                                    opcionális</label>
+                                                <input type="file" id="newsImage" class="form-control" accept="image/*">
+
+                                                <small class="text-muted-custom">
+                                                    Nem kötelező képet feltölteni. Ha feltöltesz, most localStorage-be
+                                                    menti, ezért kisebb képpel teszteld.
+                                                </small>
+                                            </div>
+
+                                            <input type="hidden" id="newsEditIndex" value="">
+
+                                            <div class="d-flex flex-wrap gap-2">
+                                                <button type="submit" id="saveNewsButton" class="btn btn-custom">
+                                                    Hír hozzáadása
+                                                </button>
+
+                                                <button type="button" id="cancelNewsEditButton"
+                                                    class="btn btn-custom d-none">
+                                                    Szerkesztés megszakítása
+                                                </button>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-lg-6">
+                                    <div class="admin-card">
+                                        <h3 class="text-accent fw-bold mb-4">
+                                            Feltöltött hírek
+                                        </h3>
+
+                                        <div id="adminNewsList">
+                                            Betöltés...
+                                        </div>
+
+                                        <button id="resetNewsButton" class="btn btn-custom mt-4">
+                                            Alap hírek visszaállítása
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </section>
+                    <section class="admin-section-alt admin-timeline-section">
+                        <div class="container">
+
+                            <div class="admin-section-header">
+                                <h2>
+                                    Timeline kezelése
+                                </h2>
+
+                                <p>
+                                    Itt tudsz új timeline eseményeket hozzáadni, szerkeszteni vagy törölni.
+                                </p>
+                            </div>
+
+                            <div class="row g-4">
+
+                                <div class="col-lg-6">
+                                    <div class="admin-card">
+                                        <h3 class="text-accent fw-bold mb-4">
+                                            Új esemény hozzáadása / szerkesztése
+                                        </h3>
+
+                                        <form id="timelineForm">
+
+                                            <div class="mb-3">
+                                                <label for="timelineTitle" class="form-label">Esemény címe</label>
+                                                <input type="text" id="timelineTitle" class="form-control" required>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="timelineDate" class="form-label">Dátum</label>
+                                                <input type="date" id="timelineDate" class="form-control" required>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="timelineType" class="form-label">Esemény típusa</label>
+                                                <select id="timelineType" class="form-select" required>
+                                                    <option value="Alakulás">Alakulás</option>
+                                                    <option value="Próba">Próba</option>
+                                                    <option value="Koncert">Koncert</option>
+                                                    <option value="Galéria">Galéria</option>
+                                                    <option value="Egyéb">Egyéb</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="timelineText" class="form-label">Esemény leírása</label>
+                                                <textarea id="timelineText" class="form-control" rows="5"
+                                                    required></textarea>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="timelineImage" class="form-label">Kép feltöltése
+                                                    opcionális</label>
+                                                <input type="file" id="timelineImage" class="form-control"
+                                                    accept="image/*">
+
+                                                <small class="text-muted-custom">
+                                                    Nem kötelező képet feltölteni. Most localStorage-be ment, ezért
+                                                    kisebb képekkel teszteld.
+                                                </small>
+                                            </div>
+
+                                            <input type="hidden" id="timelineEditIndex" value="">
+
+                                            <div class="d-flex flex-wrap gap-2">
+                                                <button type="submit" id="saveTimelineButton" class="btn btn-custom">
+                                                    Esemény hozzáadása
+                                                </button>
+
+                                                <button type="button" id="cancelTimelineEditButton"
+                                                    class="btn btn-custom d-none">
+                                                    Szerkesztés megszakítása
+                                                </button>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-lg-6">
+                                    <div class="admin-card">
+                                        <h3 class="text-accent fw-bold mb-4">
+                                            Timeline események
+                                        </h3>
+
+                                        <div id="adminTimelineList">
+                                            Betöltés...
+                                        </div>
+
+                                        <button id="resetTimelineButton" class="btn btn-custom mt-4">
+                                            Alap timeline visszaállítása
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </section>
+
+                </div>
+            </section>
+
+        </section>
+
+    </main>
+
+
+    <footer class="footer-custom text-center py-4">
+        <div class="container">
+            <p class="mb-1">
+                &copy; 2026 Maw of the Void
+            </p>
+
+            <p class="mb-0">
+                Admin felület
+            </p>
+        </div>
+    </footer>
+
+
+    <script>
+        const loginSection = document.getElementById("loginSection");
+        const adminSection = document.getElementById("adminSection");
+        const loginForm = document.getElementById("loginForm");
+        const loginError = document.getElementById("loginError");
+        const logoutButton = document.getElementById("logoutButton");
+
+        function showAdmin() {
+            loginSection.classList.add("d-none");
+            adminSection.classList.remove("d-none");
+        }
+
+        function showLogin() {
+            loginSection.classList.remove("d-none");
+            adminSection.classList.add("d-none");
+        }
+
+        if (sessionStorage.getItem("adminLoggedIn") === "true") {
+            showAdmin();
+        } else {
+            showLogin();
+        }
+
+        loginForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            if (username === "admin" && password === "admin") {
+                sessionStorage.setItem("adminLoggedIn", "true");
+                loginError.classList.add("d-none");
+                showAdmin();
+            } else {
+                loginError.classList.remove("d-none");
+            }
+        });
+
+        logoutButton.addEventListener("click", function () {
+            sessionStorage.removeItem("adminLoggedIn");
+            showLogin();
+        });
+    </script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
+        integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

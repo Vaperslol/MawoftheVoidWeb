@@ -1,0 +1,279 @@
+.admin-login-section {
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
+    padding: 80px 0;
+    background:
+        radial-gradient(circle at center, rgba(193, 18, 31, 0.28), transparent 35%),
+        linear-gradient(rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.95)),
+        url("https://picsum.photos/1600/900?random=501");
+    background-size: cover;
+    background-position: center;
+}
+
+.admin-hero {
+    min-height: 45vh;
+    background:
+        radial-gradient(circle at center, rgba(193, 18, 31, 0.32), transparent 35%),
+        linear-gradient(rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.95)),
+        url("https://picsum.photos/1600/900?random=500");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.admin-title,
+.admin-login-title {
+    font-size: clamp(3rem, 9vw, 6rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+}
+
+.admin-section {
+    padding: 90px 0;
+}
+
+.admin-section-alt {
+    padding: 90px 0;
+    background-color: var(--bg-section);
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.admin-section-header {
+    text-align: center;
+    margin-bottom: 55px;
+}
+
+.admin-section-header h2 {
+    color: var(--accent);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 12px;
+}
+
+.admin-section-header p {
+    color: var(--text-muted);
+    margin-bottom: 0;
+}
+
+.admin-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    padding: 34px;
+    box-shadow: 0 10px 28px var(--shadow-color);
+    height: 100%;
+}
+
+.admin-card h2,
+.admin-card h3 {
+    color: var(--accent);
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.admin-card label {
+    color: var(--text-main);
+    font-weight: 700;
+    margin-bottom: 7px;
+}
+
+.admin-card .form-control,
+.admin-card .form-select {
+    background-color: var(--bg-section);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    min-height: 46px;
+}
+
+.admin-card textarea.form-control {
+    min-height: 95px;
+}
+
+.admin-card .form-control:focus,
+.admin-card .form-select:focus {
+    background-color: var(--bg-section);
+    color: var(--text-main);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 0.25rem rgba(193, 18, 31, 0.25);
+}
+
+.admin-card .form-control::placeholder {
+    color: var(--text-muted);
+    opacity: 0.75;
+}
+
+.admin-list,
+#adminConcertList,
+#adminGalleryList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.admin-concert-item {
+    background-color: var(--bg-section);
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    padding: 22px;
+    margin-bottom: 0;
+}
+
+.admin-concert-item h4 {
+    color: var(--accent);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+}
+
+.admin-concert-item p {
+    color: var(--text-muted);
+    margin-bottom: 7px;
+}
+
+.admin-concert-item strong {
+    color: var(--text-main);
+}
+
+.login-error {
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.admin-button-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+.admin-small-note {
+    display: block;
+    margin-top: 8px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+@media (max-width: 992px) {
+    .admin-section,
+    .admin-section-alt {
+        padding: 70px 0;
+    }
+
+    .admin-card {
+        padding: 28px;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-title,
+    .admin-login-title {
+        letter-spacing: 3px;
+    }
+
+    .admin-section,
+    .admin-section-alt {
+        padding: 55px 0;
+    }
+
+    .admin-section-header {
+        margin-bottom: 35px;
+    }
+
+    .admin-card {
+        padding: 24px;
+    }
+}
+
+/* ADMIN SZEKCIÓK KÖZTI BIZTOS TÉRKÖZ */
+.admin-section {
+    padding: 90px 0 120px 0;
+}
+
+.admin-section-alt {
+    padding: 120px 0 90px 0;
+    background-color: var(--bg-section);
+    border-top: 1px solid var(--border-color);
+}
+
+/* hogy a két nagy blokk biztosan ne tapadjon össze */
+.admin-section + .admin-section-alt {
+    margin-top: 80px;
+}
+
+/* a galéria cím ne induljon túl fent */
+.admin-section-alt .admin-section-header {
+    margin-top: 20px;
+    margin-bottom: 60px;
+}
+
+/* ha a koncertkezelő kártya magas, akkor is legyen alatta levegő */
+.admin-section .row {
+    margin-bottom: 40px;
+}
+
+/* HÍREK ADMIN SZEKCIÓ - EXTRA TÁVOLSÁG */
+.admin-news-section {
+    margin-top: 90px;
+    padding-top: 110px;
+    border-top: 1px solid var(--border-color);
+}
+
+.admin-news-section .admin-section-header {
+    margin-bottom: 60px;
+}
+
+.admin-news-section .row {
+    row-gap: 28px;
+}
+
+.admin-news-section .admin-card {
+    padding: 36px;
+}
+
+/* A form mezők legyenek levegősebbek */
+.admin-news-section .mb-3 {
+    margin-bottom: 1.4rem !important;
+}
+
+/* A feltöltött hírek elemei között is legyen jobb térköz */
+#adminNewsList {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#adminNewsList .admin-concert-item {
+    padding: 24px;
+}
+
+/* A címek alatt is legyen több hely */
+#adminNewsList .admin-concert-item h4 {
+    margin-bottom: 16px;
+}
+
+/* Gombok alatt / körül */
+#adminNewsList .d-flex.gap-2 {
+    margin-top: 16px !important;
+}
+
+.admin-timeline-section {
+    margin-top: 90px;
+}
+
+.admin-timeline-section .admin-section-header {
+    margin-bottom: 60px;
+}
+
+#adminTimelineList {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
