@@ -1,0 +1,282 @@
+.koncertek-hero {
+    min-height: 58vh;
+    background:
+        radial-gradient(circle at center, rgba(193, 18, 31, 0.32), transparent 35%),
+        linear-gradient(rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.95)),
+        url("https://picsum.photos/1600/900?random=310");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.koncertek-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 45px 45px;
+    opacity: 0.35;
+}
+
+.koncertek-hero .container {
+    position: relative;
+    z-index: 1;
+}
+
+.koncertek-title {
+    font-size: clamp(3rem, 9vw, 7rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+}
+
+.concert-card {
+    position: relative;
+    height: 100%;
+    min-height: 520px;
+    padding: 28px;
+    overflow: hidden;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    box-shadow: 0 12px 35px var(--shadow-color);
+    transition: 0.35s ease;
+}
+
+.concert-card::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(135deg, transparent, var(--accent), transparent);
+    opacity: 0;
+    transition: 0.35s ease;
+    z-index: 0;
+}
+
+.concert-card:hover::before {
+    opacity: 1;
+}
+
+.concert-card:hover {
+    transform: translateY(-12px) scale(1.015);
+}
+
+.concert-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+.concert-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 25px;
+}
+
+.concert-status {
+    display: inline-block;
+    padding: 7px 13px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0;
+}
+
+.concert-status.open {
+    color: white;
+    background-color: var(--accent);
+}
+
+.concert-status.private {
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    background-color: transparent;
+}
+
+.concert-status.not-open {
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-section);
+}
+
+.concert-number {
+    font-size: 3.5rem;
+    line-height: 1;
+    font-weight: 900;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--accent);
+    opacity: 0.55;
+    margin: 0;
+}
+
+.concert-name {
+    font-size: 2rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-main);
+    margin-bottom: 20px;
+}
+
+.concert-info {
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    padding: 18px 0;
+    margin-bottom: 22px;
+}
+
+.concert-info p {
+    margin-bottom: 8px;
+    color: var(--text-muted);
+}
+
+.concert-info p:last-child {
+    margin-bottom: 0;
+}
+
+.concert-info span {
+    color: var(--accent);
+    font-weight: 800;
+}
+
+.concert-link {
+    color: var(--accent);
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.concert-link:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+}
+
+.map-box {
+    margin-bottom: 22px;
+    background-color: var(--bg-section);
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    padding: 14px;
+    overflow: hidden;
+}
+
+.map-label {
+    margin-bottom: 10px;
+    color: var(--accent);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.map-box iframe {
+    width: 100%;
+    height: 220px;
+    border: 0;
+    border-radius: 12px;
+    display: block;
+}
+
+.countdown-box {
+    background-color: var(--bg-section);
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    padding: 18px;
+}
+
+.countdown-label {
+    margin-bottom: 6px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.countdown {
+    font-size: 1.25rem;
+    font-weight: 900;
+    color: var(--accent);
+}
+
+.concert-panel {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    padding: 35px;
+    box-shadow: 0 12px 35px var(--shadow-color);
+}
+
+.concert-panel h3 {
+    color: var(--accent);
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.concert-panel ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+.concert-panel li {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-muted);
+}
+
+.concert-panel li:last-child {
+    border-bottom: none;
+}
+
+.concert-panel span {
+    color: var(--accent);
+    font-weight: 800;
+}
+
+body.lightmode .koncertek-hero {
+    background:
+        radial-gradient(circle at center, rgba(176, 0, 24, 0.22), transparent 35%),
+        linear-gradient(rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.92)),
+        url("https://picsum.photos/1600/900?random=310");
+    background-size: cover;
+    background-position: center;
+}
+
+body.lightmode .koncertek-title {
+    color: var(--text-main);
+}
+
+@media (max-width: 768px) {
+    .koncertek-hero {
+        min-height: 48vh;
+        padding: 60px 0;
+    }
+
+    .koncertek-title {
+        letter-spacing: 3px;
+    }
+
+    .concert-card {
+        min-height: auto;
+        padding: 24px;
+    }
+
+    .concert-name {
+        font-size: 1.6rem;
+    }
+
+    .countdown {
+        font-size: 1.05rem;
+    }
+
+    .map-box iframe {
+        height: 180px;
+    }
+}

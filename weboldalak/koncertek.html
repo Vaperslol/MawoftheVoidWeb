@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+
+<html lang="hu">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Koncertek - Maw of the Void</title>
+    <script defer="" src="../javascript/mode-valtas.js" type="module"></script>
+    <script defer="" src="../javascript/koncertek.js" type="module"></script>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" rel="stylesheet" />
+    <link href="../stiluslapok/alap.css" rel="stylesheet" />
+    <link href="../stiluslapok/koncertek.css" rel="stylesheet" />
+</head>
+
+<body>
+    <button id="kapcsolo">
+        <img alt="Sötét mód" src="../kepek/ikonok/holdacska.svg" />
+        <img alt="Világos mód" src="../kepek/ikonok/napocska.svg" />
+    </button>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">Maw of the Void</a>
+            <button aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Menü megnyitása"
+                class="navbar-toggler" data-bs-target="#navbarNavDropdown" data-bs-toggle="collapse" type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Főoldal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="rolunk.html">Rólunk</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
+                            href="bandatagok/bandatagok.html" role="button">
+                            Bandatagok
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-custom">
+                            <li><a class="dropdown-item" href="bandatagok/gemesi-tamas.html">Tomi</a></li>
+                            <li><a class="dropdown-item" href="bandatagok/opovszky-bence.html">Bence</a></li>
+                            <li><a class="dropdown-item" href="bandatagok/ipolyi-bence.html">Bence</a></li>
+                            <li><a class="dropdown-item" href="bandatagok/csendes-oliver.html">Olivér</a></li>
+                            <li><a class="dropdown-item" href="bandatagok/kovacs-peter.html">Peti</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a aria-current="page" class="nav-link active" href="koncertek.html">Koncertek</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="galeria.html">Galéria</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="hirek.html">Hírek</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="timeline.html">Timeline</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="kapcsolat.html">Kapcsolat</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main class="main-bg">
+        <section class="koncertek-hero">
+            <div class="container text-center">
+                <p class="text-accent fw-bold text-uppercase mb-2">
+                    Élő zaj, valódi hangerő
+                </p>
+                <h1 class="koncertek-title">
+                    Koncertek
+                </h1>
+                <p class="lead text-muted-custom mt-3 mx-auto" style="max-width: 850px;">Itt találod a Maw of the Void
+                    közelgő fellépéseit, bejelentett koncertjeit, privát eseményeit és minden fontos koncertinfót.</p>
+            </div>
+        </section>
+        <section class="py-5">
+            <div class="container py-4">
+                <div class="text-center mb-5">
+                    <h2 class="section-title text-accent">
+                        Bejelentett koncertek
+                    </h2>
+                    <p class="text-muted-custom">A koncertek időrendben jelennek meg, a részletek pedig segítenek
+                        követni, mikor és hol lehet minket élőben elérni.</p>
+                </div>
+                <div class="row g-4" id="concertContainer">
+                    <!-- A koncertek ide töltődnek be JavaScriptből -->
+                </div>
+            </div>
+        </section>
+        <section class="py-5 section-bg">
+            <div class="container py-4">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-6">
+                        <h2 class="section-title text-accent">
+                            Mit jelentenek a jelzések?
+                        </h2>
+                        <p class="text-muted-custom mt-3">A koncertkártyákon külön jelöljük, hogy az adott esemény
+                            nyilvános, privát vagy személyesen nem látogatható.</p>
+                        <p class="text-muted-custom">A térképes rész segít megtalálni a helyszínt, a jegy, élő adás és
+                            felvétel mezők pedig az esemény elérhetőségét mutatják.</p>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="concert-panel">
+                            <h3>Koncertinfók</h3>
+                            <ul>
+                                <li><span>Látogatható:</span> nyilvános esemény, amire el lehet menni</li>
+                                <li><span>Privát:</span> csak meghatározott kör vehet részt rajta</li>
+                                <li><span>Nem látogatható:</span> személyesen nem lehet bemenni, de élő adás készülhet
+                                    róla</li>
+                                <li><span>Jegy:</span> külön jelezzük, ha lehet jegyet venni</li>
+                                <li><span>Felvétel:</span> külön jelezzük, ha készül róla videó</li>
+                                <li><span>Térkép:</span> megmutatja a koncert pontos helyét</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="py-5">
+            <div class="container py-4 text-center">
+                <h2 class="section-title text-accent">
+                    Koncertkezelés
+                </h2>
+                <p class="text-muted-custom mx-auto" style="max-width: 750px;">A koncerteket az admin felületen lehet
+                    hozzáadni, szerkeszteni és törölni. Így a fellépések listája később is könnyen frissíthető marad.
+                </p>
+                <a class="btn btn-custom btn-lg mt-2" href="admin.html">
+                    Admin felület
+                </a>
+            </div>
+        </section>
+    </main>
+    <footer class="footer-custom text-center py-4">
+        <div class="container">
+            <p class="mb-1">
+                © 2026 Maw of the Void
+            </p>
+            <p class="mb-0">
+                Maw of the Void hivatalos weboldala
+            </p>
+        </div>
+    </footer>
+    <script crossorigin="anonymous" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"></script>
+</body>
+
+</html>
