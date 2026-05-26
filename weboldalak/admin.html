@@ -613,13 +613,13 @@
         const loginError = document.getElementById("loginError");
         const logoutButton = document.getElementById("logoutButton");
 
-        const ADMIN_USERNAME = "peti";
+        const ADMIN_USERNAME = "admin";
 
         /*
             Ide majd a jelszó SHA-256 hash-e kerül.
             Nem tökéletes biztonság, de jobb, mint az admin/admin.
         */
-        const ADMIN_PASSWORD_HASH = "IDE_JON_A_HASH";
+        const ADMIN_PASSWORD_HASH = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918";
 
         async function sha256(text) {
             const encoder = new TextEncoder();

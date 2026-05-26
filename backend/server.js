@@ -1,3 +1,4 @@
+import multer from "multer";
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -16,14 +17,44 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const DB_PATH = path.join(__dirname, "database.json");
 
+const UPLOADS_PATH = path.join(__dirname, "uploads");
+
+if (!fs.existsSync(UPLOADS_PATH)) {
+    fs.mkdirSync(UPLOADS_PATH, { recursive: true });
+}
+
 app.use(cors());
 app.use(express.json({ limit: "20mb" }));
+app.use("/uploads", express.static(UPLOADS_PATH));
+
+function requireAdmin(request, response, next) {
+    const authHeader = request.headers.authorization;
+
+    if (!authHeader) {
+        response.status(401).json({
+            message: "Hiányzik az admin jogosultság."
+        });
+        return;
+    }
+
+    const token = authHeader.replace("Bearer ", "");
+
+    if (token !== ADMIN_TOKEN) {
+        response.status(403).json({
+            message: "Hibás admin token."
+        });
+        return;
+    }
+
+    next();
+}
 
 const defaultDatabase = {
     news: [],
     concerts: [],
     timeline: [],
-    messages: []
+    messages: [],
+    gallery: []
 };
 
 function createDatabaseIfMissing() {
@@ -78,6 +109,55 @@ function checkAdmin(req, res, next) {
     next();
 }
 
+const storage = multer.diskStorage({
+    destination: function (request, file, callback) {
+        callback(null, UPLOADS_PATH);
+    },
+
+    filename: function (request, file, callback) {
+        const originalName = file.originalname
+            .toLowerCase()
+            .replace(/[^a-z0-9.\-_]/g, "-");
+
+        const uniqueName = `${Date.now()}-${Math.round(Math.random() * 1e9)}-${originalName}`;
+
+        callback(null, uniqueName);
+    }
+});
+
+const upload = multer({
+    storage: storage,
+
+    limits: {
+        fileSize: 10 * 1024 * 1024
+    },
+
+    fileFilter: function (request, file, callback) {
+        if (file.mimetype.startsWith("image/")) {
+            callback(null, true);
+        } else {
+            callback(new Error("Csak képfájl tölthető fel."));
+        }
+    }
+});
+
+function getPublicUploadUrl(request, filename) {
+    return `${request.protocol}://${request.get("host")}/uploads/${filename}`;
+}
+
+function deleteUploadedFileByUrl(fileUrl) {
+    try {
+        const url = new URL(fileUrl);
+        const filename = path.basename(url.pathname);
+        const filePath = path.join(UPLOADS_PATH, filename);
+
+        if (filePath.startsWith(UPLOADS_PATH) && fs.existsSync(filePath)) {
+            fs.unlinkSync(filePath);
+        }
+    } catch (error) {
+        console.error("Nem sikerült törölni a képet:", fileUrl);
+    }
+}
 
 /* ALAP */
 
@@ -471,6 +551,170 @@ app.delete("/api/messages", checkAdmin, function (req, res) {
     });
 });
 
+/* KÉPFELTÖLTÉS */
+
+app.post("/api/uploads", checkAdmin, upload.array("images", 30), function (req, res) {
+    const uploadedImages = req.files.map(function (file) {
+        return getPublicUploadUrl(req, file.filename);
+    });
+
+    res.json({
+        images: uploadedImages
+    });
+});
+
+
+/* GALÉRIA */
+
+app.get("/api/gallery", function (req, res) {
+    const database = readDatabase();
+
+    res.json(database.gallery || []);
+});
+
+app.get("/api/gallery/:id", function (req, res) {
+    const database = readDatabase();
+    const id = Number(req.params.id);
+
+    const album = (database.gallery || []).find(function (item) {
+        return Number(item.id) === id;
+    });
+
+    if (!album) {
+        return res.status(404).json({
+            error: "Az album nem található."
+        });
+    }
+
+    res.json(album);
+});
+
+app.post("/api/gallery", checkAdmin, function (req, res) {
+    const database = readDatabase();
+
+    if (!database.gallery) {
+        database.gallery = [];
+    }
+
+    const { title, date, description, images } = req.body;
+
+    if (!title || !date || !description) {
+        return res.status(400).json({
+            error: "Hiányzó galéria adat."
+        });
+    }
+
+    const newAlbum = {
+        id: getNextId(database.gallery),
+        title,
+        date,
+        description,
+        images: images || [],
+        createdAt: new Date().toISOString()
+    };
+
+    database.gallery.push(newAlbum);
+    writeDatabase(database);
+
+    res.status(201).json(newAlbum);
+});
+
+app.put("/api/gallery/:id", checkAdmin, function (req, res) {
+    const database = readDatabase();
+
+    if (!database.gallery) {
+        database.gallery = [];
+    }
+
+    const id = Number(req.params.id);
+
+    const index = database.gallery.findIndex(function (item) {
+        return Number(item.id) === id;
+    });
+
+    if (index === -1) {
+        return res.status(404).json({
+            error: "Az album nem található."
+        });
+    }
+
+    const oldAlbum = database.gallery[index];
+    const newImages = req.body.images || [];
+
+    if (Array.isArray(oldAlbum.images)) {
+        oldAlbum.images.forEach(function (oldImage) {
+            if (!newImages.includes(oldImage)) {
+                deleteUploadedFileByUrl(oldImage);
+            }
+        });
+    }
+
+    database.gallery[index] = {
+        ...oldAlbum,
+        title: req.body.title,
+        date: req.body.date,
+        description: req.body.description,
+        images: newImages,
+        updatedAt: new Date().toISOString()
+    };
+
+    writeDatabase(database);
+
+    res.json(database.gallery[index]);
+});
+
+app.delete("/api/gallery/:id", checkAdmin, function (req, res) {
+    const database = readDatabase();
+
+    if (!database.gallery) {
+        database.gallery = [];
+    }
+
+    const id = Number(req.params.id);
+
+    const album = database.gallery.find(function (item) {
+        return Number(item.id) === id;
+    });
+
+    if (!album) {
+        return res.status(404).json({
+            error: "Az album nem található."
+        });
+    }
+
+    if (Array.isArray(album.images)) {
+        album.images.forEach(function (imageUrl) {
+            deleteUploadedFileByUrl(imageUrl);
+        });
+    }
+
+    database.gallery = database.gallery.filter(function (item) {
+        return Number(item.id) !== id;
+    });
+
+    writeDatabase(database);
+
+    res.json({
+        message: "Album törölve."
+    });
+});
+
+app.use(function (error, req, res, next) {
+    if (error instanceof multer.MulterError) {
+        return res.status(400).json({
+            error: "Feltöltési hiba.",
+            message: error.message
+        });
+    }
+
+    if (error) {
+        return res.status(400).json({
+            error: error.message || "Ismeretlen hiba történt."
+        });
+    }
+
+    next();
+});
 
 app.listen(PORT, function () {
     console.log(`Maw of the Void API fut: http://localhost:${PORT}`);
