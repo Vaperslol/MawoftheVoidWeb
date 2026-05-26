@@ -1,5 +1,6 @@
 const API_BASE_URL = "http://localhost:3000";
 
+const timelineScrollWrapper = document.querySelector(".timeline-scroll-wrapper");
 const timelineContainer = document.getElementById("timelineContainer");
 const timelineLeft = document.getElementById("timelineLeft");
 const timelineRight = document.getElementById("timelineRight");
@@ -48,8 +49,6 @@ async function renderTimeline() {
 
     try {
         const events = sortByDate(await getTimelineEvents());
-
-        console.log("Timeline események:", events);
 
         timelineContainer.innerHTML = "";
 
@@ -105,21 +104,27 @@ async function renderTimeline() {
     }
 }
 
+function moveTimeline(direction) {
+    if (!timelineScrollWrapper) {
+        console.error("Nincs timeline-scroll-wrapper.");
+        return;
+    }
+
+    timelineScrollWrapper.scrollBy({
+        left: direction,
+        behavior: "smooth"
+    });
+}
+
 if (timelineLeft) {
     timelineLeft.addEventListener("click", function () {
-        timelineContainer.scrollBy({
-            left: -420,
-            behavior: "smooth"
-        });
+        moveTimeline(-430);
     });
 }
 
 if (timelineRight) {
     timelineRight.addEventListener("click", function () {
-        timelineContainer.scrollBy({
-            left: 420,
-            behavior: "smooth"
-        });
+        moveTimeline(430);
     });
 }
 

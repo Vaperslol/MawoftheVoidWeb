@@ -362,3 +362,29 @@
         text-align: left;
     }
 }
+
+/* ADMIN GALÉRIA JAVÍTÁS */
+
+#adminGalleryList {
+    width: 100%;
+    overflow: hidden;
+}
+
+#adminGalleryList .admin-concert-item {
+    overflow: hidden;
+}
+
+.admin-gallery-preview {
+    width: 100%;
+    max-width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 18px;
+}
+
+#adminGalleryList img {
+    max-width: 100%;
+}

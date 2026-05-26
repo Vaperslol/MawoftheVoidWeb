@@ -407,3 +407,157 @@ body.lightmode .timeline-container::-webkit-scrollbar-track {
         font-size: 1.45rem;
     }
 }
+
+.timeline-container {
+    overflow-x: auto;
+    scroll-behavior: smooth;
+}
+
+.timeline-controls button {
+    position: relative;
+    z-index: 20;
+}
+
+/* TIMELINE LAPOZÁS FIX */
+
+.timeline-scroll-wrapper {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+#timelineContainer,
+.timeline-container {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 34px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    padding: 35px 10px 45px;
+}
+
+#timelineContainer::-webkit-scrollbar,
+.timeline-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+#timelineContainer::-webkit-scrollbar-thumb,
+.timeline-container::-webkit-scrollbar-thumb {
+    background-color: var(--accent);
+    border-radius: 999px;
+}
+
+.timeline-item {
+    flex: 0 0 360px;
+    min-width: 360px;
+    max-width: 360px;
+}
+
+.timeline-controls button {
+    position: relative;
+    z-index: 50;
+}
+
+/* TIMELINE LAPOZÁS FIX */
+
+.timeline-scroll-wrapper {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+#timelineContainer {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 34px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    padding: 35px 10px 45px;
+}
+
+.timeline-item {
+    flex: 0 0 360px;
+    min-width: 360px;
+    max-width: 360px;
+}
+
+.timeline-controls button {
+    position: relative;
+    z-index: 50;
+}
+
+/* TIMELINE LAPOZÁS VÉGLEGES FIX */
+
+.timeline-scroll-wrapper {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scroll-behavior: smooth;
+    position: relative;
+    padding: 35px 0 45px;
+}
+
+.timeline-scroll-wrapper::-webkit-scrollbar {
+    height: 8px;
+}
+
+.timeline-scroll-wrapper::-webkit-scrollbar-thumb {
+    background-color: var(--accent);
+    border-radius: 999px;
+}
+
+.timeline-scroll-wrapper::-webkit-scrollbar-track {
+    background-color: #080808;
+    border-radius: 999px;
+}
+
+#timelineContainer {
+    width: max-content !important;
+    max-width: none !important;
+    min-width: max-content !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 34px;
+    overflow: visible !important;
+    padding: 35px 10px 45px;
+}
+
+#timelineContainer::before {
+    content: "";
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    top: 50%;
+    height: 2px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(193, 18, 31, 0.65),
+        transparent
+    );
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.timeline-item {
+    position: relative;
+    z-index: 2;
+    flex: 0 0 360px !important;
+    width: 360px !important;
+    min-width: 360px !important;
+    max-width: 360px !important;
+}
+
+.timeline-controls button {
+    position: relative;
+    z-index: 50;
+}

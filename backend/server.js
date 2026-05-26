@@ -49,28 +49,6 @@ app.use(session({
 
 app.use("/uploads", express.static(UPLOADS_PATH));
 
-function requireAdmin(request, response, next) {
-    const authHeader = request.headers.authorization;
-
-    if (!authHeader) {
-        response.status(401).json({
-            message: "Hiányzik az admin jogosultság."
-        });
-        return;
-    }
-
-    const token = authHeader.replace("Bearer ", "");
-
-    if (token !== ADMIN_TOKEN) {
-        response.status(403).json({
-            message: "Hibás admin token."
-        });
-        return;
-    }
-
-    next();
-}
-
 const defaultDatabase = {
     news: [],
     concerts: [],
