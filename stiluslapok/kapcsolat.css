@@ -214,3 +214,54 @@ body.lightmode .kapcsolat-title {
         height: 38px;
     }
 }
+
+/* KAPCSOLATI ŰRLAP */
+
+.contact-form-card {
+    background:
+        linear-gradient(145deg, rgba(193, 18, 31, 0.08), transparent 55%),
+        var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 26px;
+    padding: 36px;
+    box-shadow: 0 18px 45px var(--shadow-color);
+}
+
+.contact-form-card .form-control {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+}
+
+.contact-form-card .form-control:focus {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 0.25rem rgba(193, 18, 31, 0.25);
+}
+
+.contact-form-card .form-label {
+    color: var(--text-main);
+    font-weight: 700;
+}
+
+.contact-form-message {
+    min-height: 26px;
+    margin-top: 14px;
+    margin-bottom: 18px;
+    font-weight: 700;
+}
+
+.contact-form-message.success {
+    color: #45d483;
+}
+
+.contact-form-message.error {
+    color: var(--accent);
+}
+
+@media (max-width: 768px) {
+    .contact-form-card {
+        padding: 26px;
+    }
+}

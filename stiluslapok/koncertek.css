@@ -645,3 +645,83 @@ body.lightmode .concert-card-red .concert-map-box {
         height: 200px;
     }
 }
+
+/* KONCERTKÁRTYÁK MÉRET ÉS FLEX JAVÍTÁS */
+
+#concertContainer {
+    justify-content: center;
+    align-items: stretch;
+    row-gap: 32px;
+}
+
+.concert-card {
+    padding: 30px;
+    border-radius: 22px;
+}
+
+.concert-card-top {
+    margin-bottom: 24px;
+}
+
+.concert-title {
+    font-size: clamp(1.55rem, 2.2vw, 2.15rem);
+    letter-spacing: 3px;
+    margin-bottom: 18px;
+}
+
+.concert-number {
+    font-size: 3.2rem;
+}
+
+.concert-divider {
+    margin-bottom: 20px;
+}
+
+.concert-info p {
+    font-size: 0.95rem;
+    margin-bottom: 9px;
+    line-height: 1.5;
+}
+
+.concert-map-box {
+    margin-top: 24px;
+    padding: 16px;
+}
+
+.concert-map-box iframe {
+    height: 180px;
+}
+
+.concert-countdown-box {
+    margin-top: 22px;
+    padding: 18px;
+}
+
+.concert-countdown-box strong {
+    font-size: 1.15rem;
+}
+
+@media (max-width: 992px) {
+    .concert-card {
+        padding: 28px;
+    }
+}
+
+@media (max-width: 768px) {
+    .concert-card {
+        padding: 24px;
+    }
+
+    .concert-title {
+        font-size: 1.45rem;
+        letter-spacing: 2px;
+    }
+
+    .concert-number {
+        font-size: 2.7rem;
+    }
+
+    .concert-map-box iframe {
+        height: 170px;
+    }
+}

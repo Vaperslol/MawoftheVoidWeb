@@ -94,7 +94,12 @@ async function renderConcerts() {
 
         concerts.forEach(function (concert, index) {
             const card = document.createElement("div");
-            card.className = "col-xl-6 col-lg-6";
+
+            if (concerts.length === 1) {
+                card.className = "col-xl-5 col-lg-6 col-md-9 mx-auto";
+            } else {
+                card.className = "col-xl-5 col-lg-6 col-md-9";
+            }
 
             const title = concert.title || concert.name || "Névtelen koncert";
             const place = concert.place || concert.location || "Nincs megadva";
@@ -133,9 +138,8 @@ async function renderConcerts() {
                         <p><strong>Felvétel:</strong> ${getRecordingText(concert.recordingOption)}</p>
                     </div>
 
-                    ${
-                        mapUrl
-                            ? `
+                    ${mapUrl
+                    ? `
                             <div class="concert-map-box">
                                 <h4>Térkép:</h4>
 
@@ -146,8 +150,8 @@ async function renderConcerts() {
                                 </iframe>
                             </div>
                             `
-                            : ""
-                    }
+                    : ""
+                }
 
                     <div class="concert-countdown-box">
                         <p>Kezdésig hátra van:</p>
