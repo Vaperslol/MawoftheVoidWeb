@@ -4,6 +4,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
+import session from "express-session";
+import bcrypt from "bcrypt";
 import { fileURLToPath } from "url";
 
 dotenv.config();
@@ -23,8 +25,28 @@ if (!fs.existsSync(UPLOADS_PATH)) {
     fs.mkdirSync(UPLOADS_PATH, { recursive: true });
 }
 
-app.use(cors());
+app.use(cors({
+    origin: [
+        "http://127.0.0.1:5500",
+        "http://localhost:5500"
+    ],
+    credentials: true
+}));
+
 app.use(express.json({ limit: "20mb" }));
+
+app.use(session({
+    secret: process.env.SESSION_SECRET || "dev-secret",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        httpOnly: true,
+        sameSite: "lax",
+        secure: false,
+        maxAge: 1000 * 60 * 60 * 3
+    }
+}));
+
 app.use("/uploads", express.static(UPLOADS_PATH));
 
 function requireAdmin(request, response, next) {
@@ -90,23 +112,14 @@ function getNextId(items) {
 }
 
 function checkAdmin(req, res, next) {
-    const authHeader = req.headers.authorization;
-
-    if (!authHeader) {
-        return res.status(401).json({
-            error: "Hiányzó admin jogosultság."
-        });
+    if (req.session && req.session.isAdmin === true) {
+        next();
+        return;
     }
 
-    const token = authHeader.replace("Bearer ", "");
-
-    if (token !== ADMIN_TOKEN) {
-        return res.status(403).json({
-            error: "Hibás admin token."
-        });
-    }
-
-    next();
+    return res.status(401).json({
+        error: "Nincs bejelentkezett admin felhasználó."
+    });
 }
 
 const storage = multer.diskStorage({
@@ -167,6 +180,59 @@ app.get("/", function (req, res) {
     });
 });
 
+/* ADMIN AUTH */
+
+app.post("/api/admin/login", async function (req, res) {
+    const { username, password } = req.body;
+
+    const adminUsername = process.env.ADMIN_USERNAME || "admin";
+    const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH;
+
+    if (!adminPasswordHash) {
+        return res.status(500).json({
+            error: "Nincs beállítva admin jelszó hash a .env fájlban."
+        });
+    }
+
+    if (username !== adminUsername) {
+        return res.status(401).json({
+            error: "Hibás felhasználónév vagy jelszó."
+        });
+    }
+
+    const passwordIsValid = await bcrypt.compare(password, adminPasswordHash);
+
+    if (!passwordIsValid) {
+        return res.status(401).json({
+            error: "Hibás felhasználónév vagy jelszó."
+        });
+    }
+
+    req.session.isAdmin = true;
+    req.session.adminUsername = username;
+
+    res.json({
+        message: "Sikeres belépés.",
+        username: username
+    });
+});
+
+app.post("/api/admin/logout", function (req, res) {
+    req.session.destroy(function () {
+        res.clearCookie("connect.sid");
+
+        res.json({
+            message: "Sikeres kijelentkezés."
+        });
+    });
+});
+
+app.get("/api/admin/status", function (req, res) {
+    res.json({
+        loggedIn: !!(req.session && req.session.isAdmin === true),
+        username: req.session ? req.session.adminUsername || null : null
+    });
+});
 
 /* HÍREK */
 

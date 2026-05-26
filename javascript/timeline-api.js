@@ -1,4 +1,4 @@
-import { API_BASE_URL, ADMIN_TOKEN } from "./api-config.js";
+import { API_BASE_URL } from "./api-config.js";
 
 export async function getTimelineEvents() {
     const response = await fetch(`${API_BASE_URL}/api/timeline`);
@@ -13,9 +13,9 @@ export async function getTimelineEvents() {
 export async function addTimelineEvent(eventItem) {
     const response = await fetch(`${API_BASE_URL}/api/timeline`, {
         method: "POST",
+        credentials: "include",
         headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${ADMIN_TOKEN}`
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(eventItem)
     });
@@ -30,9 +30,9 @@ export async function addTimelineEvent(eventItem) {
 export async function updateTimelineEvent(id, eventItem) {
     const response = await fetch(`${API_BASE_URL}/api/timeline/${id}`, {
         method: "PUT",
+        credentials: "include",
         headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${ADMIN_TOKEN}`
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(eventItem)
     });
@@ -47,9 +47,7 @@ export async function updateTimelineEvent(id, eventItem) {
 export async function deleteTimelineEvent(id) {
     const response = await fetch(`${API_BASE_URL}/api/timeline/${id}`, {
         method: "DELETE",
-        headers: {
-            "Authorization": `Bearer ${ADMIN_TOKEN}`
-        }
+        credentials: "include"
     });
 
     if (!response.ok) {

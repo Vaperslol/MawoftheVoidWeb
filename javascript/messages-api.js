@@ -1,4 +1,4 @@
-import { API_BASE_URL, ADMIN_TOKEN } from "./api-config.js";
+import { API_BASE_URL } from "./api-config.js";
 
 export async function sendMessage(messageItem) {
     const response = await fetch(`${API_BASE_URL}/api/messages`, {
@@ -18,9 +18,7 @@ export async function sendMessage(messageItem) {
 
 export async function getMessages() {
     const response = await fetch(`${API_BASE_URL}/api/messages`, {
-        headers: {
-            "Authorization": `Bearer ${ADMIN_TOKEN}`
-        }
+        credentials: "include"
     });
 
     if (!response.ok) {
@@ -33,9 +31,7 @@ export async function getMessages() {
 export async function markMessageAsOpened(id) {
     const response = await fetch(`${API_BASE_URL}/api/messages/${id}/opened`, {
         method: "PUT",
-        headers: {
-            "Authorization": `Bearer ${ADMIN_TOKEN}`
-        }
+        credentials: "include"
     });
 
     if (!response.ok) {
@@ -48,9 +44,7 @@ export async function markMessageAsOpened(id) {
 export async function deleteMessage(id) {
     const response = await fetch(`${API_BASE_URL}/api/messages/${id}`, {
         method: "DELETE",
-        headers: {
-            "Authorization": `Bearer ${ADMIN_TOKEN}`
-        }
+        credentials: "include"
     });
 
     if (!response.ok) {
@@ -63,9 +57,7 @@ export async function deleteMessage(id) {
 export async function deleteAllMessages() {
     const response = await fetch(`${API_BASE_URL}/api/messages`, {
         method: "DELETE",
-        headers: {
-            "Authorization": `Bearer ${ADMIN_TOKEN}`
-        }
+        credentials: "include"
     });
 
     if (!response.ok) {

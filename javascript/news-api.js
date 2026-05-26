@@ -1,7 +1,4 @@
-import {
-    API_BASE_URL,
-    ADMIN_TOKEN
-} from "./api-config.js";
+import { API_BASE_URL } from "./api-config.js";
 
 export async function getNews() {
     const response = await fetch(`${API_BASE_URL}/api/news`);
@@ -16,9 +13,9 @@ export async function getNews() {
 export async function addNews(newsItem) {
     const response = await fetch(`${API_BASE_URL}/api/news`, {
         method: "POST",
+        credentials: "include",
         headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${ADMIN_TOKEN}`
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(newsItem)
     });
@@ -33,9 +30,9 @@ export async function addNews(newsItem) {
 export async function updateNews(id, newsItem) {
     const response = await fetch(`${API_BASE_URL}/api/news/${id}`, {
         method: "PUT",
+        credentials: "include",
         headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${ADMIN_TOKEN}`
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(newsItem)
     });
@@ -50,9 +47,7 @@ export async function updateNews(id, newsItem) {
 export async function deleteNews(id) {
     const response = await fetch(`${API_BASE_URL}/api/news/${id}`, {
         method: "DELETE",
-        headers: {
-            "Authorization": `Bearer ${ADMIN_TOKEN}`
-        }
+        credentials: "include"
     });
 
     if (!response.ok) {

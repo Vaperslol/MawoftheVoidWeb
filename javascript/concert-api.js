@@ -1,4 +1,4 @@
-import { API_BASE_URL, ADMIN_TOKEN } from "./api-config.js";
+import { API_BASE_URL } from "./api-config.js";
 
 export async function getConcerts() {
     const response = await fetch(`${API_BASE_URL}/api/concerts`);
@@ -13,9 +13,9 @@ export async function getConcerts() {
 export async function addConcert(concertItem) {
     const response = await fetch(`${API_BASE_URL}/api/concerts`, {
         method: "POST",
+        credentials: "include",
         headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${ADMIN_TOKEN}`
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(concertItem)
     });
@@ -30,9 +30,9 @@ export async function addConcert(concertItem) {
 export async function updateConcert(id, concertItem) {
     const response = await fetch(`${API_BASE_URL}/api/concerts/${id}`, {
         method: "PUT",
+        credentials: "include",
         headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${ADMIN_TOKEN}`
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(concertItem)
     });
@@ -47,9 +47,7 @@ export async function updateConcert(id, concertItem) {
 export async function deleteConcert(id) {
     const response = await fetch(`${API_BASE_URL}/api/concerts/${id}`, {
         method: "DELETE",
-        headers: {
-            "Authorization": `Bearer ${ADMIN_TOKEN}`
-        }
+        credentials: "include"
     });
 
     if (!response.ok) {

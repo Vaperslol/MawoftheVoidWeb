@@ -1,4 +1,4 @@
-import { API_BASE_URL, ADMIN_TOKEN } from "./api-config.js";
+import { API_BASE_URL } from "./api-config.js";
 
 export async function getGalleryAlbums() {
     const response = await fetch(`${API_BASE_URL}/api/gallery`);
@@ -23,9 +23,7 @@ export async function uploadGalleryImages(files) {
 
     const response = await fetch(`${API_BASE_URL}/api/uploads`, {
         method: "POST",
-        headers: {
-            "Authorization": `Bearer ${ADMIN_TOKEN}`
-        },
+        credentials: "include",
         body: formData
     });
 
@@ -45,9 +43,9 @@ export async function uploadGalleryImages(files) {
 export async function addGalleryAlbum(albumItem) {
     const response = await fetch(`${API_BASE_URL}/api/gallery`, {
         method: "POST",
+        credentials: "include",
         headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${ADMIN_TOKEN}`
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(albumItem)
     });
@@ -62,9 +60,9 @@ export async function addGalleryAlbum(albumItem) {
 export async function updateGalleryAlbum(id, albumItem) {
     const response = await fetch(`${API_BASE_URL}/api/gallery/${id}`, {
         method: "PUT",
+        credentials: "include",
         headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${ADMIN_TOKEN}`
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(albumItem)
     });
@@ -79,9 +77,7 @@ export async function updateGalleryAlbum(id, albumItem) {
 export async function deleteGalleryAlbum(id) {
     const response = await fetch(`${API_BASE_URL}/api/gallery/${id}`, {
         method: "DELETE",
-        headers: {
-            "Authorization": `Bearer ${ADMIN_TOKEN}`
-        }
+        credentials: "include"
     });
 
     if (!response.ok) {

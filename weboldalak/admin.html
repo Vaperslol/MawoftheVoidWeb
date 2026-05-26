@@ -607,30 +607,13 @@
 
 
     <script>
+        const API_BASE_URL = "http://localhost:3000";
+
         const loginSection = document.getElementById("loginSection");
         const adminSection = document.getElementById("adminSection");
         const loginForm = document.getElementById("loginForm");
         const loginError = document.getElementById("loginError");
         const logoutButton = document.getElementById("logoutButton");
-
-        const ADMIN_USERNAME = "admin";
-
-        /*
-            Ide majd a jelszó SHA-256 hash-e kerül.
-            Nem tökéletes biztonság, de jobb, mint az admin/admin.
-        */
-        const ADMIN_PASSWORD_HASH = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918";
-
-        async function sha256(text) {
-            const encoder = new TextEncoder();
-            const data = encoder.encode(text);
-            const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-
-            return hashArray.map(function (byte) {
-                return byte.toString(16).padStart(2, "0");
-            }).join("");
-        }
 
         function showAdmin() {
             loginSection.classList.add("d-none");
@@ -642,10 +625,23 @@
             adminSection.classList.add("d-none");
         }
 
-        if (sessionStorage.getItem("adminLoggedIn") === "true") {
-            showAdmin();
-        } else {
-            showLogin();
+        async function checkAdminStatus() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/admin/status`, {
+                    credentials: "include"
+                });
+
+                const data = await response.json();
+
+                if (data.loggedIn) {
+                    showAdmin();
+                } else {
+                    showLogin();
+                }
+            } catch (error) {
+                console.error(error);
+                showLogin();
+            }
         }
 
         loginForm.addEventListener("submit", async function (event) {
@@ -654,21 +650,50 @@
             const username = document.getElementById("username").value.trim();
             const password = document.getElementById("password").value;
 
-            const passwordHash = await sha256(password);
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/admin/login`, {
+                    method: "POST",
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password
+                    })
+                });
 
-            if (username === ADMIN_USERNAME && passwordHash === ADMIN_PASSWORD_HASH) {
-                sessionStorage.setItem("adminLoggedIn", "true");
+                const data = await response.json();
+
+                if (!response.ok) {
+                    loginError.textContent = data.error || "Hibás felhasználónév vagy jelszó.";
+                    loginError.classList.remove("d-none");
+                    return;
+                }
+
                 loginError.classList.add("d-none");
                 showAdmin();
-            } else {
+            } catch (error) {
+                loginError.textContent = "Nem sikerült kapcsolódni a backendhez.";
                 loginError.classList.remove("d-none");
+                console.error(error);
             }
         });
 
-        logoutButton.addEventListener("click", function () {
-            sessionStorage.removeItem("adminLoggedIn");
+        logoutButton.addEventListener("click", async function () {
+            try {
+                await fetch(`${API_BASE_URL}/api/admin/logout`, {
+                    method: "POST",
+                    credentials: "include"
+                });
+            } catch (error) {
+                console.error(error);
+            }
+
             showLogin();
         });
+
+        checkAdminStatus();
     </script>
 
 
