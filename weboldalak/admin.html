@@ -613,6 +613,25 @@
         const loginError = document.getElementById("loginError");
         const logoutButton = document.getElementById("logoutButton");
 
+        const ADMIN_USERNAME = "peti";
+
+        /*
+            Ide majd a jelszó SHA-256 hash-e kerül.
+            Nem tökéletes biztonság, de jobb, mint az admin/admin.
+        */
+        const ADMIN_PASSWORD_HASH = "IDE_JON_A_HASH";
+
+        async function sha256(text) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(text);
+            const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+
+            return hashArray.map(function (byte) {
+                return byte.toString(16).padStart(2, "0");
+            }).join("");
+        }
+
         function showAdmin() {
             loginSection.classList.add("d-none");
             adminSection.classList.remove("d-none");
@@ -629,13 +648,15 @@
             showLogin();
         }
 
-        loginForm.addEventListener("submit", function (event) {
+        loginForm.addEventListener("submit", async function (event) {
             event.preventDefault();
 
-            const username = document.getElementById("username").value;
+            const username = document.getElementById("username").value.trim();
             const password = document.getElementById("password").value;
 
-            if (username === "admin" && password === "admin") {
+            const passwordHash = await sha256(password);
+
+            if (username === ADMIN_USERNAME && passwordHash === ADMIN_PASSWORD_HASH) {
                 sessionStorage.setItem("adminLoggedIn", "true");
                 loginError.classList.add("d-none");
                 showAdmin();
