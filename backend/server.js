@@ -11,7 +11,10 @@ import { fileURLToPath } from "url";
 dotenv.config();
 
 const app = express();
+<<<<<<< HEAD
 app.disable("x-powered-by");
+=======
+>>>>>>> 01e64e4067739a61cf25e3a16f8427dff9af2f7b
 
 const PORT = process.env.PORT || 3000;
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || "maw-admin-2026";
@@ -48,11 +51,15 @@ app.use(session({
     }
 }));
 
+<<<<<<< HEAD
 app.use("/uploads", express.static(UPLOADS_PATH, {
     maxAge: "7d",
     etag: true,
     immutable: true
 }));
+=======
+app.use("/uploads", express.static(UPLOADS_PATH));
+>>>>>>> 01e64e4067739a61cf25e3a16f8427dff9af2f7b
 
 const defaultDatabase = {
     news: [],
@@ -164,6 +171,10 @@ app.get("/", function (req, res) {
 });
 
 /* ADMIN AUTH */
+<<<<<<< HEAD
+=======
+
+>>>>>>> 01e64e4067739a61cf25e3a16f8427dff9af2f7b
 app.post("/api/admin/login", async function (req, res) {
     const { username, password } = req.body;
 

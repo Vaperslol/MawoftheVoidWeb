@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* DARK MODE - alap */
 :root{
     --bg-main: #050505;
@@ -894,3 +895,323 @@ body::before,
 body::after {
     pointer-events: none;
 }
+=======
+/* DARK MODE - alap */
+:root{
+    --bg-main: #050505;
+    --bg-section: #0d0d0d;
+    --bg-card: #151515;
+    --text-main: #f2f2f2;
+    --text-muted: #b5b5b5;
+    --accent: #c1121f;
+    --accent-hover: #e01e2d;
+    --border-color: #2b2b2b;
+    --shadow-color: rgba(0, 0, 0, 0.45);
+
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: Bahnschrift, "Segoe UI", Arial, Helvetica, sans-serif;
+}
+
+/* LIGHT MODE */
+body.lightmode {
+    --bg-main: #f3f3f3;
+    --bg-section: #ffffff;
+    --bg-card: #eeeeee;
+    --text-main: #111111;
+    --text-muted: #555555;
+    --accent: #b00018;
+    --accent-hover: #d00024;
+    --border-color: #cccccc;
+    --shadow-color: rgba(0, 0, 0, 0.18);
+
+    background-color: var(--bg-main);
+    color: var(--text-main);
+}
+
+.main-bg {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+}
+
+.section-bg {
+    background-color: var(--bg-section);
+}
+
+.card-custom {
+    background-color: var(--bg-card);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 25px var(--shadow-color);
+}
+
+.text-accent {
+    color: var(--accent);
+}
+
+.text-muted-custom {
+    color: var(--text-muted);
+}
+
+/* NAVBAR */
+.navbar-custom {
+    background-color: var(--bg-section);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.navbar-custom .navbar-brand {
+    color: var(--text-main);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.navbar-custom .navbar-brand:hover {
+    color: var(--accent);
+}
+
+.navbar-custom .nav-link {
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.navbar-custom .nav-link:hover,
+.navbar-custom .nav-link.active {
+    color: var(--accent);
+}
+
+.navbar-toggler {
+    border-color: var(--border-color);
+    background-color: var(--accent);
+}
+
+.dropdown-menu-custom {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+}
+
+.dropdown-menu-custom .dropdown-item {
+    color: var(--text-main);
+}
+
+.dropdown-menu-custom .dropdown-item:hover {
+    background-color: var(--accent);
+    color: white;
+}
+
+.btn-custom {
+    background-color: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    font-weight: 600;
+    transition: 0.25s ease;
+}
+
+.btn-custom:hover {
+    background-color: var(--accent);
+    color: white;
+    border-color: var(--accent);
+}
+
+.btn-custom:focus {
+    box-shadow: 0 0 0 0.25rem rgba(193, 18, 31, 0.25);
+}
+
+.hero {
+    min-height: 85vh;
+    background:
+        linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85));
+        background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+}
+
+.hero-title {
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.hero-subtitle {
+    max-width: 700px;
+    color: #d8d8d8;
+}
+
+.section-title {
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.page-link-card {
+    transition: 0.25s ease;
+}
+
+.page-link-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--accent);
+}
+
+.news-date {
+    color: var(--accent);
+    font-weight: bold;
+}
+
+.footer-custom {
+    background-color: #000;
+    color: #888;
+}
+
+#kapcsolo {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    z-index: 9999;
+
+    width: 55px;
+    height: 55px;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+
+    background-color: var(--bg-card);
+    box-shadow: 0 8px 20px var(--shadow-color);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+#kapcsolo:hover {
+    transform: scale(1.08);
+    background-color: var(--accent);
+}
+
+#kapcsolo img {
+    width: 28px;
+    height: 28px;
+}
+
+/* Dark mode-ban a fekete napocska látszik */
+#kapcsolo img:first-child {
+    display: none;
+}
+
+#kapcsolo img:last-child {
+    display: block;
+}
+
+/* Light mode-ban a holdacska látszik */
+body.lightmode #kapcsolo img:first-child {
+    display: block;
+}
+
+body.lightmode #kapcsolo img:last-child {
+    display: none;
+}
+
+/* LOGÓK */
+
+.logo-text-dark,
+.logo-text-light,
+.logo-panel-dark,
+.logo-panel-light {
+    display: block;
+}
+
+.logo-text-light,
+.logo-panel-light {
+    display: none;
+}
+
+body.lightmode .logo-text-dark,
+body.lightmode .logo-panel-dark {
+    display: none;
+}
+
+body.lightmode .logo-text-light,
+body.lightmode .logo-panel-light {
+    display: block;
+}
+
+/* NAVBAR LOGÓ */
+
+.navbar-brand-logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.navbar-brand-logo img {
+    height: 34px;
+    width: auto;
+    display: block;
+}
+
+/* HERO LOGÓ */
+
+.hero-logo-box {
+    max-width: 620px;
+    margin-bottom: 26px;
+}
+
+.hero-logo-box img {
+    width: 100%;
+    height: auto;
+}
+
+/* PANEL / EMBLÉMA LOGÓ */
+
+.panel-logo-box {
+    max-width: 280px;
+    margin: 0 auto 28px auto;
+}
+
+.panel-logo-box img {
+    width: 100%;
+    height: auto;
+}
+
+/* Kisebb képernyőn */
+
+@media (max-width: 768px) {
+    .navbar-brand-logo img {
+        height: 28px;
+    }
+
+    .hero-logo-box {
+        max-width: 420px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .panel-logo-box {
+        max-width: 200px;
+    }
+}
+
+/* FŐOLDAL BETŰTÍPUS */
+
+.home-page {
+    font-family: Bahnschrift, "Segoe UI", Arial, Helvetica, sans-serif;
+}
+
+.home-page h1,
+.home-page h2,
+.home-page h3,
+.home-page h4,
+.home-page h5,
+.home-page h6,
+.home-page .navbar-brand,
+.home-page .nav-link,
+.home-page .btn {
+    font-family: Bahnschrift, "Segoe UI", Arial, Helvetica, sans-serif;
+}
+>>>>>>> 01e64e4067739a61cf25e3a16f8427dff9af2f7b

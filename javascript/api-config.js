@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const LOCAL_API_BASE_URL = "http://localhost:3000";
 
 const isLocalFrontend =
@@ -6,3 +7,6 @@ const isLocalFrontend =
     window.location.hostname === "localhost";
 
 export const API_BASE_URL = isLocalFrontend ? LOCAL_API_BASE_URL : "";
+=======
+export const API_BASE_URL = "http://localhost:3000";
+>>>>>>> 01e64e4067739a61cf25e3a16f8427dff9af2f7b

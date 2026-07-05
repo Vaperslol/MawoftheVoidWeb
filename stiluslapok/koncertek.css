@@ -722,6 +722,7 @@ body.lightmode .concert-card-red .concert-map-box {
     .concert-map-box iframe {
         height: 170px;
     }
+<<<<<<< HEAD
 }
 /* RÉGI KONCERTEK SZEKCIÓ */
 
@@ -753,4 +754,6 @@ body.lightmode .concert-card-red .concert-map-box {
 
 .concert-card-past:hover {
     opacity: 1;
+=======
+>>>>>>> 01e64e4067739a61cf25e3a16f8427dff9af2f7b
 }
