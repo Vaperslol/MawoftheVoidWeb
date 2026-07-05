@@ -3,24 +3,35 @@
 <html lang="hu">
 
 <head>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net" rel="preconnect" />
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Peti - Maw of the Void</title>
+    <link href="../../kepek/logo/Panel-White.png" rel="icon" type="image/png" />
+    <link href="../../kepek/logo/Panel-White.png" rel="shortcut icon" type="image/png" />
+    <meta content="Maw of the Void hivatalos weboldala." name="description" />
     <script defer="" src="../../javascript/mode-valtas.js" type="module"></script>
     <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" rel="stylesheet" />
     <link href="../../stiluslapok/alap.css" rel="stylesheet" />
     <link href="../../stiluslapok/bandatag-profil.css" rel="stylesheet" />
+    <meta content="#050505" name="theme-color" />
 </head>
 
 <body>
+    <script
+        data-early-theme="true">try { if (localStorage.getItem("lightmode") === "bekapcsolt") document.body.classList.add("lightmode") } catch (e) { }</script>
     <button id="kapcsolo">
-        <img alt="Sötét mód" src="../../kepek/ikonok/holdacska.svg" />
-        <img alt="Világos mód" src="../../kepek/ikonok/napocska.svg" />
+        <img alt="Sötét mód" decoding="async" height="28" src="../../kepek/ikonok/holdacska.svg" width="28" />
+        <img alt="Világos mód" decoding="async" height="28" src="../../kepek/ikonok/napocska.svg" width="28" />
     </button>
     <nav class="navbar navbar-expand-lg navbar-custom">
         <div class="container-fluid">
-            <a class="navbar-brand" href="../index.html">Maw of the Void</a>
+            <a aria-label="Maw of the Void főoldal" class="navbar-brand-logo" href="../index.html"><img alt=""
+                    aria-hidden="true" class="logo-text-dark" decoding="async"
+                    src="../../kepek/logo/Text-White-Horizontal.png" />
+                <img alt="" aria-hidden="true" class="logo-text-light" decoding="async"
+                    src="../../kepek/logo/Text-Black-Horizontal.png" /></a>
             <button aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Menü megnyitása"
                 class="navbar-toggler" data-bs-target="#navbarNavDropdown" data-bs-toggle="collapse" type="button">
                 <span class="navbar-toggler-icon"></span>
@@ -30,20 +41,17 @@
                     <li class="nav-item">
                         <a class="nav-link" href="../index.html">Főoldal</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../rolunk.html">Rólunk</a>
-                    </li>
                     <li class="nav-item dropdown">
                         <a aria-expanded="false" class="nav-link active dropdown-toggle" data-bs-toggle="dropdown"
                             href="bandatagok.html" role="button">
                             Bandatagok
                         </a>
                         <ul class="dropdown-menu dropdown-menu-custom">
-                            <li><a class="dropdown-item" href="gemesi-tamas.html">Tomi</a></li>
-                            <li><a class="dropdown-item" href="opovszky-bence.html">Bence</a></li>
-                            <li><a class="dropdown-item" href="ipolyi-bence.html">Bence</a></li>
-                            <li><a class="dropdown-item" href="csendes-oliver.html">Olivér</a></li>
-                            <li><a class="dropdown-item active" href="kovacs-peter.html">Peti</a></li>
+                            <li><a class="dropdown-item" href="gemesi-tamas.html">Gémesi Tamás</a></li>
+                            <li><a class="dropdown-item" href="ipolyi-bence.html">Ipolyi Bence</a></li>
+                            <li><a class="dropdown-item" href="opovszki-bence.html">Opovszki Bence</a></li>
+                            <li><a class="dropdown-item" href="csendes-oliver.html">Csendes Olivér</a></li>
+                            <li><a class="dropdown-item active" href="kovacs-peter.html">Kovács Péter</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
@@ -69,32 +77,46 @@
         <section class="member-profile-hero">
             <div class="container text-center">
                 <p class="member-role-big mb-2">Basszusgitár</p>
-                <h1 class="member-profile-title">Peti</h1>
-                <p class="lead text-muted-custom mt-3 mx-auto" style="max-width: 850px;">Peti a mély tartományért felel:
-                    a basszus nála összeköti a dobot és a gitárokat, miközben súlyt ad a daloknak.</p>
+                <h1 class="member-profile-title">Kovács Péter</h1>
+                <p class="lead text-muted-custom mt-3 mx-auto" style="max-width: 850px;">Péter a mély tartományért
+                    felel: punk rock gyökerekből, régi barátságokból és basszusgitáros alapokból építi a Maw of the Void
+                    hangzását.</p>
             </div>
         </section>
-        <section class="py-5">
+        <section class="py-5 member-detail-section">
             <div class="container py-4">
-                <div class="row g-5 align-items-center">
-                    <div class="col-lg-5">
-                        <div class="profile-image-card">
-                            <img alt="Peti" src="https://picsum.photos/700/900?random=1605" />
-                            <div class="profile-image-label">Basszusgitár</div>
+                <div class="row g-4 g-lg-5 align-items-stretch member-detail-grid">
+                    <div class="col-lg-7">
+                        <div class="profile-card profile-intro-card site-animate">
+                            <h2>Történetem röviden</h2>
+                            <p class="profile-short-lead">Péter már nagyon korán közel került a hangos zenéhez: 2008.
+                                július 18-án született, és három hónaposan már Junkies koncerten volt. A punk rock közeg
+                                alapból meghatározta a zenei ízlését, később pedig a metal és a magyar alternatív/punk
+                                vonal is fontos hatással lett rá.</p>
+                            <p>Olivérrel ismerik egymást a legrégebb óta a zenekarból. 2024-ben kezdtek igazán
+                                összebarátkozni, 2025-ben pedig vele együtt vette meg Péter az első basszusgitárját is.
+                                Ugyanebben az időszakban már volt egy kisebb, két számos fellépésük is karácsony
+                                környékén, ami jó első lépés volt a közös zenélés felé.</p>
+                            <p>2026 januárjában indult el komolyabban a tagkeresés, majd áprilisban állt össze a Maw of
+                                the Void. Péter számára a basszusgitár azóta nem csak hangszer, hanem a zenekar mély,
+                                összetartó alapja: a célja, hogy a dob és a gitárok között erős, feszes kapcsolatot
+                                adjon, miközben a basszus saját karakterrel is jelen legyen.</p><a
+                                class="btn btn-custom mt-2" href="bandatagok.html">Vissza a bandatagokhoz</a>
                         </div>
                     </div>
-                    <div class="col-lg-7">
-                        <div class="profile-card">
-                            <h2>Bemutatkozás</h2>
-                            <p>Peti a Maw of the Void basszusgitárosa, aki a zenekar mély, masszív alapját adja. A
-                                basszusgitár szerepe nála nem csak háttér, hanem olyan tartóerő, ami összefogja a teljes
-                                hangzást.</p>
-                            <p>A próbákon a dobhoz illeszkedő alapokkal, a riffek megtámasztásával és a dalok súlyának
-                                építésével foglalkozik. Célja, hogy a basszus minden számban érezhető legyen, ne csak
-                                hallható.</p>
-                            <a class="btn btn-custom mt-2" href="bandatagok.html">
-                                Vissza a bandatagokhoz
-                            </a>
+                    <div class="col-lg-5">
+                        <div class="profile-card instrument-card site-animate site-animate-delay">
+                            <p class="instrument-eyebrow">Használatban lévő eszközök</p>
+                            <h2>Basszus és inspirációk</h2>
+                            <p class="instrument-intro">Péter hangzásának alapját két basszusgitár, egy chorus pedál és
+                                erős punk/metal inspirációk adják.</p>
+                            <ul class="instrument-list">
+                                <li><strong>Fő basszusgitár</strong><span>Ibanez GSRQA-TKS</span></li>
+                                <li><strong>Másodgitár</strong><span>Harley Benton PB-50 Fiesta Red</span></li>
+                                <li><strong>Pedál / effekt</strong><span>TC Electronic 3rd Dimension Chorus</span></li>
+                                <li><strong>Kedvenc előadók</strong><span>Metallica, System of a Down, Tankcsapda,
+                                        Mudfield, Bankrupt, Központi Hatalom</span></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -104,10 +126,10 @@
             <div class="container text-center py-4">
                 <h2 class="section-title text-accent">További tagok</h2>
                 <div class="member-navigation mt-4">
-                    <a class="btn btn-custom" href="gemesi-tamas.html">Tomi - Ének</a>
-                    <a class="btn btn-custom" href="opovszky-bence.html">Bence - Szólógitár</a>
-                    <a class="btn btn-custom" href="ipolyi-bence.html">Bence - Dob</a>
-                    <a class="btn btn-custom" href="csendes-oliver.html">Olivér - Ritmusgitár</a>
+                    <a class="btn btn-custom" href="gemesi-tamas.html">Gémesi Tamás - Ének</a>
+                    <a class="btn btn-custom" href="ipolyi-bence.html">Ipolyi Bence - Gitár/Szinti</a>
+                    <a class="btn btn-custom" href="opovszki-bence.html">Opovszki Bence - Dob</a>
+                    <a class="btn btn-custom" href="csendes-oliver.html">Csendes Olivér - Ritmusgitár</a>
                 </div>
             </div>
         </section>
@@ -118,10 +140,9 @@
             <p class="mb-0">Maw of the Void hivatalos weboldala</p>
         </div>
     </footer>
-    <script crossorigin="anonymous" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-    <script crossorigin="anonymous" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"></script>
+    <script crossorigin="anonymous" defer=""
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script defer="True" src="../../javascript/animaciok.js" type="module"></script>
 </body>
 
 </html>

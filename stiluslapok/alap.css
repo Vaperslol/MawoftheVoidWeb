@@ -15,7 +15,7 @@
 body {
     background-color: var(--bg-main);
     color: var(--text-main);
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Bahnschrift, "Segoe UI", Arial, Helvetica, sans-serif;
 }
 
 /* LIGHT MODE */
@@ -125,9 +125,8 @@ body.lightmode {
 .hero {
     min-height: 85vh;
     background:
-        linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)),
-        url("https://picsum.photos/1600/900?random=20");
-    background-size: cover;
+        linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85));
+        background-size: cover;
     background-position: center;
     display: flex;
     align-items: center;
@@ -298,4 +297,600 @@ body.lightmode .logo-panel-light {
     .panel-logo-box {
         max-width: 200px;
     }
+}
+
+/* FŐOLDAL BETŰTÍPUS */
+
+.home-page {
+    font-family: Bahnschrift, "Segoe UI", Arial, Helvetica, sans-serif;
+}
+
+.home-page h1,
+.home-page h2,
+.home-page h3,
+.home-page h4,
+.home-page h5,
+.home-page h6,
+.home-page .navbar-brand,
+.home-page .nav-link,
+.home-page .btn {
+    font-family: Bahnschrift, "Segoe UI", Arial, Helvetica, sans-serif;
+}
+
+/* 2026 mobil optimalizálás */
+
+*, *::before, *::after { box-sizing: border-box; }
+img { max-width: 100%; height: auto; }
+.page-link-card .card-img-top {
+    aspect-ratio: 10 / 7;
+    object-fit: cover;
+}
+.navbar-custom .container-fluid {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+.navbar-custom .navbar-brand {
+    font-size: 1rem;
+    line-height: 1.2;
+    max-width: calc(100% - 72px);
+    white-space: normal;
+}
+.navbar-custom .navbar-collapse {
+    padding-top: .75rem;
+    padding-bottom: .5rem;
+}
+.navbar-custom .nav-link,
+.dropdown-menu-custom .dropdown-item {
+    padding-top: .7rem;
+    padding-bottom: .7rem;
+}
+.main-bg section {
+    scroll-margin-top: 84px;
+}
+.hero .btn,
+.page-link-card .btn,
+.member-content .btn,
+.rolunk-link-card,
+.member-navigation .btn {
+    min-height: 44px;
+}
+@media (max-width: 991.98px) {
+    .hero {
+        min-height: auto;
+        padding: 84px 0 60px;
+    }
+}
+@media (max-width: 767.98px) {
+    body {
+        font-size: 16px;
+    }
+    .hero-title,
+    .rolunk-title,
+    .bandatagok-title,
+    .member-profile-title,
+    .timeline-title {
+        letter-spacing: 2px !important;
+        line-height: 1.04;
+        word-break: break-word;
+    }
+    .hero-subtitle,
+    .lead {
+        font-size: 1rem;
+    }
+    .section-title {
+        letter-spacing: 1px;
+        line-height: 1.2;
+        font-size: 1.65rem;
+    }
+    .container,
+    .container-fluid {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    .py-5 {
+        padding-top: 2.5rem !important;
+        padding-bottom: 2.5rem !important;
+    }
+    .py-4 {
+        padding-top: 1.5rem !important;
+        padding-bottom: 1.5rem !important;
+    }
+    .hero .btn,
+    .hero .btn-lg,
+    .btn.btn-lg {
+        width: 100%;
+        margin-right: 0 !important;
+    }
+    .hero .btn + .btn,
+    .btn + .btn {
+        margin-top: .75rem;
+    }
+    .page-link-card .btn,
+    .member-content .btn,
+    .member-navigation .btn,
+    .contact-form-wrap .btn,
+    .timeline-controls .btn,
+    .news-filter-bar .btn {
+        width: 100%;
+    }
+    .text-md-end,
+    .text-lg-end {
+        text-align: left !important;
+    }
+    #kapcsolo {
+        right: 14px;
+        bottom: 14px;
+        width: 48px;
+        height: 48px;
+    }
+    #kapcsolo img {
+        width: 24px;
+        height: 24px;
+    }
+    .news-modal {
+        padding: 56px 12px 16px;
+    }
+    .news-modal-content {
+        padding: 20px;
+        max-height: 88vh;
+    }
+    .news-close {
+        top: 10px;
+        right: 10px;
+        width: 44px;
+        height: 44px;
+        font-size: 1.7rem;
+    }
+}
+
+/* LOGÓ A NAVBARBAN - javított dark/light/hover váltás */
+.navbar-brand-logo {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 16px;
+    isolation: isolate;
+    transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.navbar-brand-logo::before {
+    content: "";
+    position: absolute;
+    inset: -8px -10px;
+    z-index: -1;
+    border-radius: 20px;
+    background:
+        radial-gradient(circle at center, rgba(193, 18, 31, 0.34), rgba(193, 18, 31, 0.06) 52%, transparent 72%);
+    box-shadow:
+        0 0 22px rgba(193, 18, 31, 0.28),
+        0 10px 26px rgba(0, 0, 0, 0.42);
+    opacity: 0.72;
+    transition: opacity 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.navbar-brand-logo:hover {
+    transform: translateY(-1px);
+    filter: drop-shadow(0 0 8px rgba(193, 18, 31, 0.42));
+}
+
+.navbar-brand-logo:hover::before {
+    opacity: 1;
+    transform: scale(1.06);
+    box-shadow:
+        0 0 30px rgba(193, 18, 31, 0.45),
+        0 12px 34px rgba(0, 0, 0, 0.52);
+}
+
+.navbar-brand-logo img {
+    height: 38px;
+    width: auto;
+    max-width: min(260px, 58vw);
+}
+
+/* Alap: dark mode = fehér logó látszik, fekete rejtve */
+.navbar-brand-logo .logo-text-dark {
+    display: block !important;
+}
+
+.navbar-brand-logo .logo-text-light {
+    display: none !important;
+}
+
+/* Light mode = fekete logó látszik, fehér rejtve */
+body.lightmode .navbar-brand-logo .logo-text-dark {
+    display: none !important;
+}
+
+body.lightmode .navbar-brand-logo .logo-text-light {
+    display: block !important;
+}
+
+/* Hover dark modeban: ellenkező szín, tehát fekete logó */
+body:not(.lightmode) .navbar-brand-logo:hover .logo-text-dark {
+    display: none !important;
+}
+
+body:not(.lightmode) .navbar-brand-logo:hover .logo-text-light {
+    display: block !important;
+}
+
+/* Hover light modeban: ellenkező szín, tehát fehér logó */
+body.lightmode .navbar-brand-logo:hover .logo-text-dark {
+    display: block !important;
+}
+
+body.lightmode .navbar-brand-logo:hover .logo-text-light {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    .navbar-brand-logo {
+        padding: 7px 9px;
+        border-radius: 14px;
+    }
+
+    .navbar-brand-logo::before {
+        inset: -6px -8px;
+        border-radius: 18px;
+    }
+
+    .navbar-brand-logo img {
+        height: 30px;
+        max-width: 62vw;
+    }
+}
+/* 2026 szerkezeti animációk + navbar margó/logó javítás */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+/* Navbar: ne vágódjon be a logó, legyen kényelmes margó */
+.navbar-custom {
+    min-height: 72px;
+    overflow: visible;
+}
+
+.navbar-custom .container-fluid {
+    min-height: 72px;
+    padding-left: clamp(16px, 3vw, 42px);
+    padding-right: clamp(16px, 3vw, 42px);
+    gap: 16px;
+}
+
+.navbar-brand-logo {
+    position: relative;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    margin-left: 0;
+    border-radius: 16px;
+    line-height: 1;
+    isolation: isolate;
+    overflow: visible;
+    transform-origin: center;
+    transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.navbar-brand-logo::before {
+    content: "";
+    position: absolute;
+    inset: -7px -9px;
+    z-index: -1;
+    border-radius: 20px;
+    background:
+        radial-gradient(circle at center, rgba(193, 18, 31, 0.34), rgba(193, 18, 31, 0.06) 54%, transparent 74%);
+    box-shadow:
+        0 0 22px rgba(193, 18, 31, 0.28),
+        0 10px 26px rgba(0, 0, 0, 0.42);
+    opacity: 0.72;
+    transition: opacity 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.navbar-brand-logo:hover {
+    transform: translateY(-1px);
+    filter: drop-shadow(0 0 8px rgba(193, 18, 31, 0.42));
+}
+
+.navbar-brand-logo:hover::before {
+    opacity: 1;
+    transform: scale(1.05);
+    box-shadow:
+        0 0 30px rgba(193, 18, 31, 0.46),
+        0 12px 34px rgba(0, 0, 0, 0.52);
+}
+
+.navbar-brand-logo img {
+    height: 34px;
+    width: auto;
+    max-width: min(250px, 54vw);
+    object-fit: contain;
+}
+
+/* Alap dark mode: fehér logó. Light mode: fekete logó. */
+.navbar-brand-logo .logo-text-dark {
+    display: block !important;
+}
+
+.navbar-brand-logo .logo-text-light {
+    display: none !important;
+}
+
+body.lightmode .navbar-brand-logo .logo-text-dark {
+    display: none !important;
+}
+
+body.lightmode .navbar-brand-logo .logo-text-light {
+    display: block !important;
+}
+
+/* Hoverkor ellenkező szín */
+body:not(.lightmode) .navbar-brand-logo:hover .logo-text-dark {
+    display: none !important;
+}
+
+body:not(.lightmode) .navbar-brand-logo:hover .logo-text-light {
+    display: block !important;
+}
+
+body.lightmode .navbar-brand-logo:hover .logo-text-dark {
+    display: block !important;
+}
+
+body.lightmode .navbar-brand-logo:hover .logo-text-light {
+    display: none !important;
+}
+
+/* Finom szerkezeti animációk az egész weboldalon */
+.main-bg > section,
+.footer-custom,
+.card-custom,
+.member-card,
+.profile-card,
+.contact-card,
+.news-card,
+.timeline-item,
+.rolunk-card,
+.rolunk-feature-card,
+.rolunk-link-card,
+.concert-card,
+.gallery-card,
+.admin-card {
+    animation: motvFadeUp 0.7s ease both;
+}
+
+.main-bg > section:nth-of-type(1) { animation-delay: 0.02s; }
+.main-bg > section:nth-of-type(2) { animation-delay: 0.08s; }
+.main-bg > section:nth-of-type(3) { animation-delay: 0.14s; }
+.main-bg > section:nth-of-type(4) { animation-delay: 0.20s; }
+.main-bg > section:nth-of-type(5) { animation-delay: 0.26s; }
+
+.card-custom:nth-child(2n),
+.member-card:nth-child(2n),
+.profile-card:nth-child(2n),
+.news-card:nth-child(2n),
+.timeline-item:nth-child(2n) {
+    animation-delay: 0.12s;
+}
+
+.card-custom:nth-child(3n),
+.member-card:nth-child(3n),
+.profile-card:nth-child(3n),
+.news-card:nth-child(3n),
+.timeline-item:nth-child(3n) {
+    animation-delay: 0.18s;
+}
+
+.btn,
+.nav-link,
+.dropdown-item {
+    transition:
+        color 0.22s ease,
+        background-color 0.22s ease,
+        border-color 0.22s ease,
+        transform 0.22s ease,
+        box-shadow 0.22s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(193, 18, 31, 0.16);
+}
+
+@keyframes motvFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .navbar-custom,
+    .navbar-custom .container-fluid {
+        min-height: 66px;
+    }
+
+    .navbar-brand-logo img {
+        height: 30px;
+        max-width: min(230px, 62vw);
+    }
+}
+
+@media (max-width: 575.98px) {
+    .navbar-custom .container-fluid {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .navbar-brand-logo {
+        padding: 7px 9px;
+    }
+
+    .navbar-brand-logo img {
+        height: 27px;
+        max-width: 58vw;
+    }
+
+    .navbar-brand-logo::before {
+        inset: -5px -6px;
+        border-radius: 16px;
+    }
+}
+/* VALÓDI ÁTTŰNÉSES ANIMÁCIÓK - nem villan, hanem finoman beúszik */
+body.motv-animations-ready .motv-reveal {
+    opacity: 0;
+    transform: translateY(34px) scale(0.985);
+    filter: none;
+    transition:
+        opacity 820ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 820ms cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 260ms ease,
+        border-color 260ms ease,
+        background-color 260ms ease;
+    transition-delay: var(--motv-delay, 0ms);
+    will-change: opacity, transform;
+}
+
+body.motv-animations-ready .motv-reveal.motv-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: none;
+}
+
+/* Kártyák hoverje marad gyors, de nem írja felül a beúszást */
+body.motv-animations-ready .motv-reveal.motv-visible.card-custom:hover,
+body.motv-animations-ready .motv-reveal.motv-visible.member-card:hover,
+body.motv-animations-ready .motv-reveal.motv-visible.news-card:hover,
+body.motv-animations-ready .motv-reveal.motv-visible.timeline-item:hover {
+    transition:
+        transform 260ms ease,
+        box-shadow 260ms ease,
+        border-color 260ms ease,
+        background-color 260ms ease;
+}
+
+/* A régi page-load animációkat kikapcsoljuk, hogy ne villanjanak be */
+body.motv-animations-ready .main-bg > section,
+body.motv-animations-ready .footer-custom,
+body.motv-animations-ready .card-custom,
+body.motv-animations-ready .member-card,
+body.motv-animations-ready .profile-card,
+body.motv-animations-ready .contact-card,
+body.motv-animations-ready .news-card,
+body.motv-animations-ready .timeline-item,
+body.motv-animations-ready .concert-card,
+body.motv-animations-ready .gallery-card,
+body.motv-animations-ready .admin-card {
+    animation: none !important;
+}
+
+/* A navbar külön, betöltéskor finoman csússzon le */
+.navbar-custom {
+    animation: motvNavbarDrop 560ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes motvNavbarDrop {
+    from {
+        opacity: 0;
+        transform: translateY(-12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.motv-animations-ready .motv-reveal {
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+        transition: none !important;
+    }
+
+    .navbar-custom {
+        animation: none !important;
+    }
+}
+/* BLUR JAVÍTÁS - a szöveg soha ne maradjon homályos */
+body.motv-animations-ready .motv-reveal,
+body.motv-animations-ready .motv-reveal.motv-visible,
+body.motv-animations-ready .main-bg > section:first-child.motv-reveal,
+body.motv-animations-ready .main-bg > section:first-child.motv-reveal.motv-visible {
+    filter: none !important;
+}
+/* DROPDOWN OVERLAY FIX - a menü legyen mindig kattintható a hero fölött */
+.navbar-custom {
+    position: sticky;
+    top: 0;
+    z-index: 5000;
+    isolation: isolate;
+}
+
+.navbar-custom .navbar-collapse,
+.navbar-custom .dropdown,
+.navbar-custom .dropdown-menu {
+    position: relative;
+    z-index: 5001;
+}
+
+.dropdown-menu-custom,
+.navbar-custom .dropdown-menu {
+    z-index: 6000 !important;
+    pointer-events: auto !important;
+}
+
+/* A hero és díszítő overlayek ne üljenek a navbar fölé */
+.hero,
+.bandatagok-hero,
+.member-profile-hero,
+.rolunk-hero,
+.timeline-hero,
+.section-bg,
+.main-bg,
+main,
+section {
+    position: relative;
+    z-index: 1;
+}
+
+.hero::before,
+.hero::after,
+.bandatagok-hero::before,
+.bandatagok-hero::after,
+.member-profile-hero::before,
+.member-profile-hero::after,
+.rolunk-hero::before,
+.rolunk-hero::after,
+.timeline-hero::before,
+.timeline-hero::after {
+    pointer-events: none !important;
+}
+
+/* Ha Bootstrap backdrop vagy egyéb overlay maradna, ne blokkolja az egérkattintást a navbar környékén */
+body::before,
+body::after {
+    pointer-events: none;
 }

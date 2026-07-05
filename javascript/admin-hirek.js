@@ -29,14 +29,14 @@ const defaultNews = [
         date: "2026-05-01",
         type: "Bejelentés",
         text: "Elindult a Maw of the Void hivatalos weboldala. Itt jelennek majd meg a legfontosabb hírek, koncertinfók, képek és zenekari frissítések.",
-        image: "https://picsum.photos/1000/700?random=930"
+        image: "../kepek/helyorzo/news-default.svg"
     },
     {
         title: "Készülünk az első koncertekre",
         date: "2026-06-10",
         type: "Koncert",
         text: "A banda folyamatosan próbál, új ötleteken dolgozik, és készül az első élő fellépésekre. A koncertekkel kapcsolatos frissítések itt lesznek elérhetők.",
-        image: "https://picsum.photos/1000/700?random=931"
+        image: "../kepek/helyorzo/news-default.svg"
     }
 ];
 

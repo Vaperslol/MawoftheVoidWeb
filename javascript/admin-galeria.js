@@ -1,134 +1,181 @@
 import {
     getGalleryAlbums,
-    saveGalleryAlbums,
-    resetGalleryAlbums,
-    sortAlbumsByDate,
+    uploadGalleryImages,
+    addGalleryAlbum,
+    deleteGalleryAlbum,
+    sortGalleryAlbumsByDate,
     formatGalleryDate
-} from "./gallery-storage.js";
+} from "./gallery-api.js";
 
 const galleryForm = document.getElementById("galleryForm");
-const adminGalleryList = document.getElementById("adminGalleryList");
-const resetGalleryButton = document.getElementById("resetGalleryAlbums");
 
 const galleryTitle = document.getElementById("galleryTitle");
 const galleryDate = document.getElementById("galleryDate");
 const galleryDescription = document.getElementById("galleryDescription");
 const galleryImages = document.getElementById("galleryImages");
 
-function fileToBase64(file) {
-    return new Promise(function (resolve, reject) {
-        const reader = new FileReader();
+const adminGalleryList = document.getElementById("adminGalleryList");
+const resetGalleryAlbums = document.getElementById("resetGalleryAlbums");
 
-        reader.onload = function () {
-            resolve({
-                src: reader.result,
-                name: file.name
-            });
-        };
-
-        reader.onerror = function () {
-            reject("Nem sikerült beolvasni a képet.");
-        };
-
-        reader.readAsDataURL(file);
-    });
-}
-
-async function handleGallerySubmit(event) {
-    event.preventDefault();
-
-    const files = Array.from(galleryImages.files);
-
-    if (files.length === 0) {
-        alert("Válassz ki legalább egy képet.");
-        return;
+function getCoverImage(album) {
+    if (!album.images || album.images.length === 0) {
+        return "";
     }
 
-    const imageList = await Promise.all(files.map(fileToBase64));
-
-    const newAlbum = {
-        id: crypto.randomUUID(),
-        title: galleryTitle.value.trim(),
-        date: galleryDate.value,
-        description: galleryDescription.value.trim(),
-        images: imageList
-    };
-
-    const albums = getGalleryAlbums();
-    albums.push(newAlbum);
-
-    saveGalleryAlbums(albums);
-
-    galleryForm.reset();
-    renderAdminGallery();
+    return album.images[0];
 }
 
-function renderAdminGallery() {
-    const albums = sortAlbumsByDate(getGalleryAlbums());
+async function renderAdminGallery() {
+    try {
+        const albums = sortGalleryAlbumsByDate(await getGalleryAlbums());
 
-    if (albums.length === 0) {
+        adminGalleryList.innerHTML = "";
+
+        if (albums.length === 0) {
+            adminGalleryList.innerHTML = `
+                <p class="text-muted-custom">
+                    Még nincs feltöltött galéria-album.
+                </p>
+            `;
+            return;
+        }
+
+        albums.forEach(function (album) {
+            const item = document.createElement("div");
+            item.className = "admin-concert-item";
+
+            const coverImage = getCoverImage(album);
+
+            item.innerHTML = `
+                ${
+                    coverImage
+                        ? `<img src="${coverImage}" alt="${album.title}" class="admin-gallery-preview">`
+                        : ""
+                }
+
+                <h4>
+                    ${album.title}
+                </h4>
+
+                <p>
+                    <strong>Dátum:</strong>
+                    ${formatGalleryDate(album.date)}
+                </p>
+
+                <p>
+                    <strong>Leírás:</strong>
+                    ${album.description}
+                </p>
+
+                <p>
+                    <strong>Képek száma:</strong>
+                    ${album.images ? album.images.length : 0}
+                </p>
+
+                <div class="d-flex flex-wrap gap-2 mt-3">
+                    <button class="btn btn-custom btn-sm" data-delete-gallery="${album.id}">
+                        Album törlése
+                    </button>
+                </div>
+            `;
+
+            adminGalleryList.appendChild(item);
+        });
+    } catch (error) {
         adminGalleryList.innerHTML = `
             <p class="text-muted-custom">
-                Még nincs feltöltött galéria.
+                Nem sikerült betölteni a galéria albumokat. Ellenőrizd, hogy fut-e a backend.
             </p>
         `;
+
+        console.error(error);
+    }
+}
+
+galleryForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const title = galleryTitle.value.trim();
+    const date = galleryDate.value;
+    const description = galleryDescription.value.trim();
+
+    if (!title || !date || !description) {
+        alert("Az album neve, dátuma és leírása kötelező.");
         return;
     }
 
-    adminGalleryList.innerHTML = "";
+    if (galleryImages.files.length === 0) {
+        alert("Legalább egy képet fel kell tölteni az albumhoz.");
+        return;
+    }
 
-    albums.forEach(function (album, index) {
-        const item = document.createElement("div");
-        item.className = "admin-concert-item";
+    try {
+        const uploadedImages = await uploadGalleryImages(galleryImages.files);
 
-        item.innerHTML = `
-            <h4>${album.title}</h4>
+        const albumItem = {
+            title: title,
+            date: date,
+            description: description,
+            images: uploadedImages
+        };
 
-            <p><strong>Dátum:</strong> ${formatGalleryDate(album.date)}</p>
-            <p><strong>Leírás:</strong> ${album.description}</p>
-            <p><strong>Képek száma:</strong> ${album.images.length}</p>
+        await addGalleryAlbum(albumItem);
 
-            <button class="btn btn-custom btn-sm mt-2" data-delete-gallery="${index}">
-                Album törlése
-            </button>
-        `;
+        galleryForm.reset();
+        await renderAdminGallery();
 
-        adminGalleryList.appendChild(item);
-    });
+        alert("Galéria album feltöltve.");
+    } catch (error) {
+        alert("Nem sikerült feltölteni az albumot. Ellenőrizd, hogy fut-e a backend.");
+        console.error(error);
+    }
+});
 
-    const deleteButtons = document.querySelectorAll("[data-delete-gallery]");
+adminGalleryList.addEventListener("click", async function (event) {
+    const deleteButton = event.target.closest("[data-delete-gallery]");
 
-    deleteButtons.forEach(function (button) {
-        button.addEventListener("click", function () {
-            const index = Number(button.dataset.deleteGallery);
-            deleteGalleryAlbum(index);
-        });
-    });
-}
+    if (!deleteButton) {
+        return;
+    }
 
-function deleteGalleryAlbum(index) {
-    const albums = sortAlbumsByDate(getGalleryAlbums());
+    const id = Number(deleteButton.dataset.deleteGallery);
 
-    const sure = confirm("Biztosan törlöd ezt a galéria-albumot?");
+    const sure = confirm("Biztosan törlöd ezt az albumot? A feltöltött képek is törlődnek.");
 
     if (!sure) {
         return;
     }
 
-    albums.splice(index, 1);
-    saveGalleryAlbums(albums);
-    renderAdminGallery();
-}
-
-galleryForm.addEventListener("submit", handleGallerySubmit);
-
-resetGalleryButton.addEventListener("click", function () {
-    const sure = confirm("Biztosan visszaállítod az alap galériát?");
-
-    if (sure) {
-        resetGalleryAlbums();
-        renderAdminGallery();
+    try {
+        await deleteGalleryAlbum(id);
+        await renderAdminGallery();
+    } catch (error) {
+        alert("Nem sikerült törölni az albumot.");
+        console.error(error);
     }
 });
+
+if (resetGalleryAlbums) {
+    resetGalleryAlbums.addEventListener("click", async function () {
+        const sure = confirm("Biztosan törlöd az összes galéria albumot?");
+
+        if (!sure) {
+            return;
+        }
+
+        try {
+            const albums = await getGalleryAlbums();
+
+            for (const album of albums) {
+                await deleteGalleryAlbum(album.id);
+            }
+
+            await renderAdminGallery();
+        } catch (error) {
+            alert("Nem sikerült törölni az albumokat.");
+            console.error(error);
+        }
+    });
+}
 
 renderAdminGallery();

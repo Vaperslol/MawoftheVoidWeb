@@ -1,9 +1,7 @@
 .member-profile-hero {
     min-height: 62vh;
     background:
-        radial-gradient(circle at center, rgba(193, 18, 31, 0.32), transparent 35%),
-        linear-gradient(rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.95)),
-        url("https://picsum.photos/1600/900?random=1500");
+        radial-gradient(circle at center, rgba(193, 18, 31, 0.32), transparent 35%);
     background-size: cover;
     background-position: center;
     display: flex;
@@ -140,8 +138,7 @@
 body.lightmode .member-profile-hero {
     background:
         radial-gradient(circle at center, rgba(176, 0, 24, 0.22), transparent 35%),
-        linear-gradient(rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.92)),
-        url("https://picsum.photos/1600/900?random=1500");
+        linear-gradient(rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.92));
     background-size: cover;
     background-position: center;
 }
@@ -166,5 +163,195 @@ body.lightmode .member-profile-title {
 
     .profile-card {
         padding: 26px;
+    }
+}
+/* Mobil finomhangolás */
+
+@media (max-width: 575.98px) {
+    .profile-image-card img { height: 300px; }
+    .profile-image-label { left: 16px; bottom: 16px; font-size: 1.2rem; }
+    .profile-card { padding: 20px; }
+}
+/* TAGPROFIL - margin javítás, régi stílus megtartása, eszköz/inspiráció blokk */
+.member-profile-hero {
+    min-height: 360px;
+    padding: 76px 0 56px;
+}
+
+.member-profile-hero .container {
+    animation: motvMemberHero 0.7s ease both;
+}
+
+.member-profile-title {
+    line-height: 1.04;
+}
+
+.member-detail-section {
+    padding-top: 2.75rem !important;
+}
+
+.member-detail-grid {
+    align-items: stretch;
+}
+
+.profile-intro-card,
+.instrument-card {
+    height: 100%;
+}
+
+.profile-short-lead {
+    color: var(--text-main) !important;
+    font-weight: 650;
+    font-size: 1.04rem;
+}
+
+.instrument-card {
+    background:
+        linear-gradient(145deg, rgba(193, 18, 31, 0.08), transparent 38%),
+        var(--bg-card);
+}
+
+.instrument-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--accent);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1.6px;
+    font-size: 0.78rem;
+    margin-bottom: 8px;
+}
+
+.instrument-eyebrow::before {
+    content: "";
+    width: 9px;
+    height: 9px;
+    border-radius: 999px;
+    background-color: var(--accent);
+    box-shadow: 0 0 18px var(--accent);
+}
+
+.instrument-intro {
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+.instrument-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 12px;
+}
+
+.instrument-list li {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    gap: 5px;
+    padding: 14px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    background-color: rgba(255, 255, 255, 0.025);
+    transition:
+        transform 0.24s ease,
+        border-color 0.24s ease,
+        background-color 0.24s ease,
+        box-shadow 0.24s ease;
+}
+
+.instrument-list li::after {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 -55%;
+    width: 45%;
+    transform: skewX(-18deg);
+    background: linear-gradient(90deg, transparent, rgba(193, 18, 31, 0.13), transparent);
+    transition: left 0.42s ease;
+}
+
+.instrument-list li:hover {
+    transform: translateX(6px);
+    border-color: var(--accent);
+    background-color: rgba(193, 18, 31, 0.07);
+    box-shadow: 0 8px 22px rgba(193, 18, 31, 0.10);
+}
+
+.instrument-list li:hover::after {
+    left: 120%;
+}
+
+.instrument-list strong {
+    color: var(--accent);
+    font-size: 0.78rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+}
+
+.instrument-list span {
+    color: var(--text-main);
+    font-weight: 700;
+}
+
+.site-animate {
+    animation: motvMemberCard 0.72s ease both;
+}
+
+.site-animate-delay {
+    animation-delay: 0.12s;
+}
+
+@keyframes motvMemberHero {
+    from {
+        opacity: 0;
+        transform: translateY(16px) scale(0.985);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes motvMemberCard {
+    from {
+        opacity: 0;
+        transform: translateY(22px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 991.98px) {
+    .member-profile-hero {
+        min-height: auto;
+        padding: 64px 0 46px;
+    }
+
+    .member-detail-section {
+        padding-top: 2rem !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .member-profile-hero {
+        padding: 54px 0 38px;
+    }
+
+    .member-profile-title {
+        font-size: clamp(2.35rem, 14vw, 4rem);
+        letter-spacing: 2px;
+    }
+
+    .profile-card {
+        padding: 22px;
+    }
+
+    .instrument-list li:hover {
+        transform: none;
     }
 }

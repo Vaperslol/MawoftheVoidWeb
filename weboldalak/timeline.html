@@ -3,25 +3,36 @@
 <html lang="hu">
 
 <head>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net" rel="preconnect" />
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Timeline - Maw of the Void</title>
+    <link href="../kepek/logo/Panel-White.png" rel="icon" type="image/png" />
+    <link href="../kepek/logo/Panel-White.png" rel="shortcut icon" type="image/png" />
+    <meta content="A Maw of the Void zenekar fontosabb eseményei és mérföldkövei időrendben." name="description" />
     <script defer="" src="../javascript/mode-valtas.js" type="module"></script>
     <script defer="" src="../javascript/timeline.js" type="module"></script>
     <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" rel="stylesheet" />
     <link href="../stiluslapok/alap.css" rel="stylesheet" />
     <link href="../stiluslapok/timeline.css" rel="stylesheet" />
+    <meta content="#050505" name="theme-color" />
 </head>
 
 <body>
+    <script
+        data-early-theme="true">try { if (localStorage.getItem("lightmode") === "bekapcsolt") document.body.classList.add("lightmode") } catch (e) { }</script>
     <button id="kapcsolo">
-        <img alt="Sötét mód" src="../kepek/ikonok/holdacska.svg" />
-        <img alt="Világos mód" src="../kepek/ikonok/napocska.svg" />
+        <img alt="Sötét mód" decoding="async" height="28" src="../kepek/ikonok/holdacska.svg" width="28" />
+        <img alt="Világos mód" decoding="async" height="28" src="../kepek/ikonok/napocska.svg" width="28" />
     </button>
     <nav class="navbar navbar-expand-lg navbar-custom">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.html">Maw of the Void</a>
+            <a aria-label="Maw of the Void főoldal" class="navbar-brand-logo" href="index.html"><img alt=""
+                    aria-hidden="true" class="logo-text-dark" decoding="async"
+                    src="../kepek/logo/Text-White-Horizontal.png" />
+                <img alt="" aria-hidden="true" class="logo-text-light" decoding="async"
+                    src="../kepek/logo/Text-Black-Horizontal.png" /></a>
             <button aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Menü megnyitása"
                 class="navbar-toggler" data-bs-target="#navbarNavDropdown" data-bs-toggle="collapse" type="button">
                 <span class="navbar-toggler-icon"></span>
@@ -31,20 +42,17 @@
                     <li class="nav-item">
                         <a class="nav-link" href="index.html">Főoldal</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="rolunk.html">Rólunk</a>
-                    </li>
                     <li class="nav-item dropdown">
                         <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
                             href="bandatagok/bandatagok.html" role="button">
                             Bandatagok
                         </a>
                         <ul class="dropdown-menu dropdown-menu-custom">
-                            <li><a class="dropdown-item" href="bandatagok/gemesi-tamas.html">Tomi</a></li>
-                            <li><a class="dropdown-item" href="bandatagok/opovszky-bence.html">Bence</a></li>
-                            <li><a class="dropdown-item" href="bandatagok/ipolyi-bence.html">Bence</a></li>
-                            <li><a class="dropdown-item" href="bandatagok/csendes-oliver.html">Olivér</a></li>
-                            <li><a class="dropdown-item" href="bandatagok/kovacs-peter.html">Peti</a></li>
+                            <li><a class="dropdown-item" href="bandatagok/gemesi-tamas.html">Gémesi Tamás</a></li>
+                            <li><a class="dropdown-item" href="bandatagok/ipolyi-bence.html">Ipolyi Bence</a></li>
+                            <li><a class="dropdown-item" href="bandatagok/opovszki-bence.html">Opovszki Bence</a></li>
+                            <li><a class="dropdown-item" href="bandatagok/csendes-oliver.html">Csendes Olivér</a></li>
+                            <li><a class="dropdown-item" href="bandatagok/kovacs-peter.html">Kovács Péter</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
@@ -90,16 +98,16 @@
                         könnyen visszanézhető, mi mikor történt a bandával.</p>
                 </div>
                 <div class="timeline-controls">
-                    <button class="btn btn-custom" id="timelineLeft">
+                    <button class="btn btn-custom" id="timelineLeft" type="button">
                         Balra
                     </button>
-                    <button class="btn btn-custom" id="timelineRight">
+                    <button class="btn btn-custom" id="timelineRight" type="button">
                         Jobbra
                     </button>
                 </div>
                 <div class="timeline-scroll-wrapper">
                     <div class="timeline-container" id="timelineContainer">
-                        <!-- Az események JavaScriptből töltődnek be -->
+                        <!-- JS ide tölti az eseményeket -->
                     </div>
                 </div>
             </div>
@@ -142,10 +150,10 @@
             </p>
         </div>
     </footer>
-    <script crossorigin="anonymous" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-    <script crossorigin="anonymous" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"></script>
+    <script crossorigin="anonymous" defer=""
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script defer="True" src="../javascript/animaciok.js" type="module"></script>
 </body>
 
 </html>

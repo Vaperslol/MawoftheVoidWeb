@@ -1,126 +1,234 @@
 import {
     getConcerts,
     sortConcertsByDate,
-    getStatusText,
-    getTicketText,
-    getStreamText,
-    getRecordingText,
-    getMapLink,
-    formatDate
-} from "./concert-storage.js";
+    formatConcertDate
+} from "./concert-api.js";
 
 const concertContainer = document.getElementById("concertContainer");
+const pastConcertContainer = document.getElementById("pastConcertContainer");
 
-function makeLink(text, link) {
-    if (!link) {
-        return text;
+function getStatusText(status) {
+    const statuses = {
+        open: "Látogatható",
+        private: "Privát",
+        "not-open": "Nem látogatható"
+    };
+
+    return statuses[status] || status || "Nincs megadva";
+}
+
+function getTicketText(option) {
+    const options = {
+        "no-ticket": "Nem lehet jegyet venni",
+        "ticket-link": "Jegyvásárlás linkkel"
+    };
+
+    return options[option] || option || "Nincs megadva";
+}
+
+function getStreamText(option) {
+    const options = {
+        "no-stream": "Nem fog készülni róla élő adás",
+        "stream-link": "Fog készülni róla élő adás"
+    };
+
+    return options[option] || option || "Nincs megadva";
+}
+
+function getRecordingText(option) {
+    const options = {
+        "no-recording": "Nem fog készülni róla felvétel",
+        "recording-link": "Fog készülni róla felvétel"
+    };
+
+    return options[option] || option || "Nincs megadva";
+}
+
+function makeMapEmbedUrl(concert) {
+    const query = concert.address || concert.place || concert.location;
+
+    if (!query) {
+        return "";
     }
 
-    return `<a href="${link}" target="_blank" class="concert-link">${text}</a>`;
+    return `https://www.google.com/maps?q=${encodeURIComponent(query)}&output=embed`;
 }
 
-function renderConcerts() {
-    const concerts = sortConcertsByDate(getConcerts());
+function getConcertDate(concert) {
+    if (!concert.date) {
+        return null;
+    }
 
-    concertContainer.innerHTML = "";
-
-    concerts.forEach(function (concert, index) {
-        const concertDateTime = concert.date + "T" + concert.time;
-
-        const ticketText = getTicketText(concert);
-        const streamText = getStreamText(concert);
-        const recordingText = getRecordingText(concert);
-
-        const card = document.createElement("div");
-        card.className = "col-xl-4 col-md-6";
-
-        card.innerHTML = `
-            <article class="concert-card" data-date="${concertDateTime}">
-                <div class="concert-top">
-                    <p class="concert-status ${concert.status}">
-                        ${getStatusText(concert.status)}
-                    </p>
-
-                    <p class="concert-number">
-                        ${String(index + 1).padStart(2, "0")}
-                    </p>
-                </div>
-
-                <h2 class="concert-name">
-                    ${concert.name}
-                </h2>
-
-                <div class="concert-info">
-                    <p><span>Dátum:</span> ${formatDate(concert.date)}</p>
-                    <p><span>Időpont:</span> ${concert.time}</p>
-                    <p><span>Helyszín:</span> ${concert.place}</p>
-                    <p><span>Pontos cím:</span> ${concert.address}</p>
-                    <p><span>Belépés:</span> ${concert.entry}</p>
-                    <p><span>Jegy:</span> ${makeLink(ticketText, concert.ticketLink)}</p>
-                    <p><span>Élő adás:</span> ${makeLink(streamText, concert.streamLink)}</p>
-                    <p><span>Felvétel:</span> ${makeLink(recordingText, concert.recordingLink)}</p>
-                </div>
-
-                <div class="map-box">
-                    <p class="map-label">Térkép:</p>
-
-                    <iframe
-                        src="${getMapLink(concert.address)}"
-                        loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade"
-                        allowfullscreen>
-                    </iframe>
-                </div>
-
-                <div class="countdown-box">
-                    <p class="countdown-label">Kezdésig hátra van:</p>
-                    <div class="countdown">Betöltés...</div>
-                </div>
-            </article>
-        `;
-
-        concertContainer.appendChild(card);
-    });
-
-    updateCountdowns();
+    return new Date(`${concert.date}T${concert.time || "23:59"}`);
 }
 
-function updateCountdowns() {
-    const concertCards = document.querySelectorAll(".concert-card");
+function isPastConcert(concert) {
+    const concertDate = getConcertDate(concert);
+
+    if (!concertDate) {
+        return false;
+    }
+
+    return concertDate < new Date();
+}
+
+function getCountdown(concert) {
+    const concertDate = getConcertDate(concert);
+
+    if (!concertDate) {
+        return "Nincs dátum megadva.";
+    }
+
     const now = new Date();
+    const difference = concertDate - now;
 
-    concertCards.forEach(function (card) {
-        const dateValue = card.dataset.date;
-        const concertDate = new Date(dateValue);
-        const countdownElement = card.querySelector(".countdown");
+    if (difference <= 0) {
+        return "Ez a koncert már lezajlott.";
+    }
 
-        if (!dateValue || isNaN(concertDate)) {
-            countdownElement.textContent = "Pontos időpont bejelentésre vár";
-            return;
+    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((difference / (1000 * 60)) % 60);
+
+    return `${days} nap, ${hours} óra, ${minutes} perc`;
+}
+
+function escapeHtml(value) {
+    return String(value || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
+function renderConcertCard(concert, index, isPast) {
+    const card = document.createElement("div");
+    card.className = "col-xl-5 col-lg-6 col-md-9";
+
+    const title = concert.title || concert.name || "Névtelen koncert";
+    const place = concert.place || concert.location || "Nincs megadva";
+    const address = concert.address || "Nincs megadva";
+    const mapUrl = makeMapEmbedUrl(concert);
+
+    const pastClass = isPast ? "concert-card-past" : "";
+    const badgeText = isPast ? "Régi koncert" : getStatusText(concert.status);
+
+    card.innerHTML = `
+        <article class="concert-card ${pastClass} h-100">
+
+            <div class="concert-card-top">
+                <span class="concert-badge">
+                    ${escapeHtml(badgeText)}
+                </span>
+
+                <span class="concert-number">
+                    ${String(index + 1).padStart(2, "0")}
+                </span>
+            </div>
+
+            <h3 class="concert-title">
+                ${escapeHtml(title)}
+            </h3>
+
+            <div class="concert-divider"></div>
+
+            <div class="concert-info">
+                <p><strong>Dátum:</strong> ${concert.date ? formatConcertDate(concert.date) : "Nincs megadva"}</p>
+                <p><strong>Időpont:</strong> ${escapeHtml(concert.time || "Nincs megadva")}</p>
+                <p><strong>Helyszín:</strong> ${escapeHtml(place)}</p>
+                <p><strong>Pontos cím:</strong> ${escapeHtml(address)}</p>
+                <p><strong>Belépés:</strong> ${escapeHtml(concert.entry || "Nincs megadva")}</p>
+                <p><strong>Jegy:</strong> ${escapeHtml(getTicketText(concert.ticketOption))}</p>
+                <p><strong>Élő adás:</strong> ${escapeHtml(getStreamText(concert.streamOption))}</p>
+                <p><strong>Felvétel:</strong> ${escapeHtml(getRecordingText(concert.recordingOption))}</p>
+            </div>
+
+            ${mapUrl
+                ? `
+                    <div class="concert-map-box">
+                        <h4>Térkép:</h4>
+
+                        <iframe
+                            src="${mapUrl}"
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                `
+                : ""
+            }
+
+            <div class="concert-countdown-box">
+                <p>${isPast ? "Státusz:" : "Kezdésig hátra van:"}</p>
+                <strong>${escapeHtml(getCountdown(concert))}</strong>
+            </div>
+
+        </article>
+    `;
+
+    return card;
+}
+
+function showEmptyMessage(container, text) {
+    container.innerHTML = `
+        <div class="col-12 text-center">
+            <p class="text-muted-custom">
+                ${text}
+            </p>
+        </div>
+    `;
+}
+
+async function renderConcerts() {
+    try {
+        const concerts = await getConcerts();
+
+        const upcomingConcerts = sortConcertsByDate(
+            concerts.filter(function (concert) {
+                return !isPastConcert(concert);
+            })
+        );
+
+        const pastConcerts = sortConcertsByDate(
+            concerts.filter(function (concert) {
+                return isPastConcert(concert);
+            })
+        ).reverse();
+
+        concertContainer.innerHTML = "";
+
+        if (pastConcertContainer) {
+            pastConcertContainer.innerHTML = "";
         }
 
-        const distance = concertDate - now;
-
-        if (distance <= 0) {
-            countdownElement.textContent = "A koncert már elkezdődött vagy lezajlott.";
-            card.classList.add("concert-ended");
-            return;
+        if (upcomingConcerts.length === 0) {
+            showEmptyMessage(concertContainer, "Jelenleg nincs bejelentett közelgő koncert.");
+        } else {
+            upcomingConcerts.forEach(function (concert, index) {
+                concertContainer.appendChild(renderConcertCard(concert, index, false));
+            });
         }
 
-        const secondsTotal = Math.floor(distance / 1000);
+        if (pastConcertContainer) {
+            if (pastConcerts.length === 0) {
+                showEmptyMessage(pastConcertContainer, "Még nincs régi koncert az oldalon.");
+            } else {
+                pastConcerts.forEach(function (concert, index) {
+                    pastConcertContainer.appendChild(renderConcertCard(concert, index, true));
+                });
+            }
+        }
 
-        const days = Math.floor(secondsTotal / (60 * 60 * 24));
-        const hours = Math.floor((secondsTotal % (60 * 60 * 24)) / (60 * 60));
-        const minutes = Math.floor((secondsTotal % (60 * 60)) / 60);
-        const seconds = secondsTotal % 60;
+    } catch (error) {
+        showEmptyMessage(concertContainer, "Nem sikerült betölteni a koncerteket. Ellenőrizd, hogy fut-e a backend.");
 
-        countdownElement.textContent =
-            days + " nap, " +
-            hours + " óra, " +
-            minutes + " perc, " +
-            seconds + " mp";
-    });
+        if (pastConcertContainer) {
+            showEmptyMessage(pastConcertContainer, "A régi koncerteket sem sikerült betölteni.");
+        }
+
+        console.error(error);
+    }
 }
 
 renderConcerts();
-setInterval(updateCountdowns, 1000);

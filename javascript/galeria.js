@@ -1,145 +1,221 @@
 import {
     getGalleryAlbums,
-    sortAlbumsByDate,
+    sortGalleryAlbumsByDate,
     formatGalleryDate
-} from "./gallery-storage.js";
+} from "./gallery-api.js";
 
-const albumContainer = document.getElementById("galleryAlbumContainer");
+const galleryAlbumContainer = document.getElementById("galleryAlbumContainer");
 
-const modal = document.getElementById("galleryModal");
-const modalImage = document.getElementById("galleryModalImage");
-const modalAlbumTitle = document.getElementById("galleryAlbumTitle");
-const imageCounter = document.getElementById("galleryImageCounter");
+const galleryModal = document.getElementById("galleryModal");
+const galleryModalImage = document.getElementById("galleryModalImage");
 
-const closeButton = document.getElementById("closeGalleryModal");
-const prevButton = document.getElementById("prevImage");
-const nextButton = document.getElementById("nextImage");
+const closeGalleryModal = document.getElementById("closeGalleryModal");
+const prevImage = document.getElementById("prevImage");
+const nextImage = document.getElementById("nextImage");
 
-let currentAlbum = null;
+let galleryAlbumsCache = [];
+let currentImages = [];
 let currentImageIndex = 0;
 
-function renderAlbums() {
-    const albums = sortAlbumsByDate(getGalleryAlbums());
+function getCoverImage(album) {
+    if (!album.images || album.images.length === 0) {
+        return "";
+    }
 
-    albumContainer.innerHTML = "";
+    return album.images[0];
+}
 
-    if (albums.length === 0) {
-        albumContainer.innerHTML = `
-            <div class="col-12 text-center">
-                <p class="text-muted-custom">
-                    Még nincs feltöltött galéria.
-                </p>
-            </div>
-        `;
+function openGalleryModal(images, startIndex) {
+    if (!images || images.length === 0) {
         return;
     }
 
-    albums.forEach(function (album, index) {
-        const coverImage = album.images.length > 0
-            ? album.images[0].src
-            : "https://picsum.photos/1000/700?random=999";
+    currentImages = images;
+    currentImageIndex = startIndex;
 
-        const card = document.createElement("div");
-        card.className = "col-xl-4 col-md-6";
+    updateModalImage();
 
-        card.innerHTML = `
-            <article class="album-card" data-album-index="${index}">
-                <div class="album-cover">
-                    <img src="${coverImage}" alt="${album.title}">
-                    <div class="album-folder-icon">▣</div>
-                </div>
-
-                <div class="album-content">
-                    <p class="album-date">${formatGalleryDate(album.date)}</p>
-
-                    <h3>${album.title}</h3>
-
-                    <p class="text-muted-custom">
-                        ${album.description}
-                    </p>
-
-                    <p class="album-count">
-                        ${album.images.length} kép
-                    </p>
-                </div>
-            </article>
-        `;
-
-        albumContainer.appendChild(card);
-    });
-
-    const albumCards = document.querySelectorAll(".album-card");
-
-    albumCards.forEach(function (card) {
-        card.addEventListener("click", function () {
-            const index = Number(card.dataset.albumIndex);
-            openAlbum(index);
-        });
-    });
+    galleryModal.classList.remove("d-none");
+    document.body.style.overflow = "hidden";
 }
 
-function openAlbum(albumIndex) {
-    const albums = sortAlbumsByDate(getGalleryAlbums());
-    currentAlbum = albums[albumIndex];
-    currentImageIndex = 0;
+function closeModal() {
+    galleryModal.classList.add("d-none");
+    document.body.style.overflow = "";
+}
 
-    if (!currentAlbum || currentAlbum.images.length === 0) {
+function updateModalImage() {
+    galleryModalImage.src = currentImages[currentImageIndex];
+    galleryModalImage.alt = `Galéria kép ${currentImageIndex + 1}`;
+}
+
+function showPreviousImage() {
+    if (currentImages.length === 0) {
         return;
     }
-
-    modal.classList.remove("d-none");
-    showImage();
-}
-
-function showImage() {
-    const image = currentAlbum.images[currentImageIndex];
-
-    modalImage.src = image.src;
-    modalImage.alt = image.name || currentAlbum.title;
-    modalAlbumTitle.textContent = currentAlbum.title;
-
-    imageCounter.textContent =
-        currentImageIndex + 1 + " / " + currentAlbum.images.length;
-}
-
-function nextImage() {
-    if (!currentAlbum) return;
-
-    currentImageIndex++;
-
-    if (currentImageIndex >= currentAlbum.images.length) {
-        currentImageIndex = 0;
-    }
-
-    showImage();
-}
-
-function prevImage() {
-    if (!currentAlbum) return;
 
     currentImageIndex--;
 
     if (currentImageIndex < 0) {
-        currentImageIndex = currentAlbum.images.length - 1;
+        currentImageIndex = currentImages.length - 1;
     }
 
-    showImage();
+    updateModalImage();
 }
 
-function closeModal() {
-    modal.classList.add("d-none");
-    currentAlbum = null;
-    currentImageIndex = 0;
+function showNextImage() {
+    if (currentImages.length === 0) {
+        return;
+    }
+
+    currentImageIndex++;
+
+    if (currentImageIndex >= currentImages.length) {
+        currentImageIndex = 0;
+    }
+
+    updateModalImage();
 }
 
-nextButton.addEventListener("click", nextImage);
-prevButton.addEventListener("click", prevImage);
-closeButton.addEventListener("click", closeModal);
+async function renderGalleryAlbums() {
+    try {
+        const albums = sortGalleryAlbumsByDate(await getGalleryAlbums());
+        galleryAlbumsCache = albums;
 
-modal.addEventListener("click", function (event) {
-    if (event.target === modal) {
+        galleryAlbumContainer.innerHTML = "";
+
+        if (albums.length === 0) {
+            galleryAlbumContainer.innerHTML = `
+                <div class="col-12 text-center">
+                    <p class="text-muted-custom">
+                        Még nincs feltöltött galéria-album.
+                    </p>
+                </div>
+            `;
+            return;
+        }
+
+        albums.forEach(function (album) {
+            const card = document.createElement("div");
+            card.className = "col-lg-4 col-md-6";
+
+            const coverImage = getCoverImage(album);
+
+            card.innerHTML = `
+                <article class="gallery-card h-100">
+                    ${
+                        coverImage
+                            ? `
+                                <button class="gallery-cover-button" data-open-album="${album.id}">
+                                    <img src="${coverImage}" alt="${album.title}" class="gallery-cover-image">
+                                </button>
+                            `
+                            : `
+                                <div class="gallery-empty-cover">
+                                    Nincs kép
+                                </div>
+                            `
+                    }
+
+                    <div class="gallery-card-content">
+                        <p class="gallery-date">
+                            ${formatGalleryDate(album.date)}
+                        </p>
+
+                        <h3>
+                            ${album.title}
+                        </h3>
+
+                        <p class="text-muted-custom">
+                            ${album.description}
+                        </p>
+
+                        <p class="gallery-count">
+                            ${album.images ? album.images.length : 0} kép
+                        </p>
+
+                        ${
+                            album.images && album.images.length > 0
+                                ? `
+                                    <button class="btn btn-custom btn-sm" data-open-album="${album.id}">
+                                        Album megnyitása
+                                    </button>
+                                `
+                                : ""
+                        }
+                    </div>
+                </article>
+            `;
+
+            galleryAlbumContainer.appendChild(card);
+        });
+    } catch (error) {
+        galleryAlbumContainer.innerHTML = `
+            <div class="col-12 text-center">
+                <p class="text-muted-custom">
+                    Nem sikerült betölteni a galériát. Ellenőrizd, hogy fut-e a backend.
+                </p>
+            </div>
+        `;
+
+        console.error(error);
+    }
+}
+
+galleryAlbumContainer.addEventListener("click", function (event) {
+    const openButton = event.target.closest("[data-open-album]");
+
+    if (!openButton) {
+        return;
+    }
+
+    const id = Number(openButton.dataset.openAlbum);
+
+    const album = galleryAlbumsCache.find(function (item) {
+        return Number(item.id) === id;
+    });
+
+    if (!album || !album.images || album.images.length === 0) {
+        return;
+    }
+
+    openGalleryModal(album.images, 0);
+});
+
+if (closeGalleryModal) {
+    closeGalleryModal.addEventListener("click", closeModal);
+}
+
+if (prevImage) {
+    prevImage.addEventListener("click", showPreviousImage);
+}
+
+if (nextImage) {
+    nextImage.addEventListener("click", showNextImage);
+}
+
+if (galleryModal) {
+    galleryModal.addEventListener("click", function (event) {
+        if (event.target === galleryModal) {
+            closeModal();
+        }
+    });
+}
+
+document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
         closeModal();
+    }
+
+    if (!galleryModal.classList.contains("d-none")) {
+        if (event.key === "ArrowLeft") {
+            showPreviousImage();
+        }
+
+        if (event.key === "ArrowRight") {
+            showNextImage();
+        }
     }
 });
 
-renderAlbums();
+renderGalleryAlbums();

@@ -1,10 +1,11 @@
 import {
     getTimelineEvents,
-    saveTimelineEvents,
-    resetTimelineEvents,
+    addTimelineEvent,
+    updateTimelineEvent,
+    deleteTimelineEvent,
     sortTimelineByDate,
     formatTimelineDate
-} from "./timeline-storage.js";
+} from "./timeline-api.js";
 
 const timelineForm = document.getElementById("timelineForm");
 const adminTimelineList = document.getElementById("adminTimelineList");
@@ -19,6 +20,32 @@ const timelineImage = document.getElementById("timelineImage");
 const timelineEditIndex = document.getElementById("timelineEditIndex");
 const saveTimelineButton = document.getElementById("saveTimelineButton");
 const cancelTimelineEditButton = document.getElementById("cancelTimelineEditButton");
+
+let currentEditImage = "";
+
+const defaultTimelineEvents = [
+    {
+        title: "A Maw of the Void elindul",
+        date: "2026-05-01",
+        type: "Alakulás",
+        text: "A zenekar elkezdi összerakni a saját hangzását, az első ötletek és próbák alapján.",
+        image: ""
+    },
+    {
+        title: "Első komolyabb próbák",
+        date: "2026-06-01",
+        type: "Próba",
+        text: "A banda elkezd teljes dalokon dolgozni, kialakulnak az első riffek, témák és koncertötletek.",
+        image: ""
+    },
+    {
+        title: "Első koncerttervek",
+        date: "2026-09-01",
+        type: "Koncert",
+        text: "Megjelennek az első fellépésekhez kapcsolódó tervek és időpontok.",
+        image: ""
+    }
+];
 
 function fileToBase64(file) {
     return new Promise(function (resolve, reject) {
@@ -38,19 +65,21 @@ function fileToBase64(file) {
 
 function resetTimelineFormMode() {
     timelineForm.reset();
-
     timelineEditIndex.value = "";
+    currentEditImage = "";
+
     saveTimelineButton.textContent = "Esemény hozzáadása";
     cancelTimelineEditButton.classList.add("d-none");
 }
 
-function fillTimelineForm(eventItem, index) {
-    timelineTitle.value = eventItem.title;
-    timelineDate.value = eventItem.date;
-    timelineType.value = eventItem.type;
-    timelineText.value = eventItem.text;
+function fillTimelineForm(eventItem) {
+    timelineTitle.value = eventItem.title || "";
+    timelineDate.value = eventItem.date || "";
+    timelineType.value = eventItem.type || "Egyéb";
+    timelineText.value = eventItem.text || "";
 
-    timelineEditIndex.value = index;
+    timelineEditIndex.value = eventItem.id;
+    currentEditImage = eventItem.image || "";
 
     saveTimelineButton.textContent = "Esemény mentése";
     cancelTimelineEditButton.classList.remove("d-none");
@@ -61,104 +90,117 @@ function fillTimelineForm(eventItem, index) {
     });
 }
 
-function renderAdminTimeline() {
-    const events = sortTimelineByDate(getTimelineEvents());
+async function renderAdminTimeline() {
+    try {
+        const events = sortTimelineByDate(await getTimelineEvents());
 
-    if (events.length === 0) {
+        adminTimelineList.innerHTML = "";
+
+        if (events.length === 0) {
+            adminTimelineList.innerHTML = `
+                <p class="text-muted-custom">
+                    Még nincs feltöltött timeline esemény.
+                </p>
+            `;
+            return;
+        }
+
+        events.forEach(function (eventItem) {
+            const item = document.createElement("div");
+            item.className = "admin-concert-item";
+
+            item.innerHTML = `
+                <h4>
+                    ${eventItem.title}
+                </h4>
+
+                <p>
+                    <strong>Dátum:</strong>
+                    ${formatTimelineDate(eventItem.date)}
+                </p>
+
+                <p>
+                    <strong>Típus:</strong>
+                    ${eventItem.type}
+                </p>
+
+                <p>
+                    <strong>Leírás:</strong>
+                    ${eventItem.text.slice(0, 120)}...
+                </p>
+
+                <div class="d-flex flex-wrap gap-2 mt-3">
+                    <button class="btn btn-custom btn-sm" data-edit-timeline="${eventItem.id}">
+                        Szerkesztés
+                    </button>
+
+                    <button class="btn btn-custom btn-sm" data-delete-timeline="${eventItem.id}">
+                        Törlés
+                    </button>
+                </div>
+            `;
+
+            adminTimelineList.appendChild(item);
+        });
+    } catch (error) {
         adminTimelineList.innerHTML = `
             <p class="text-muted-custom">
-                Még nincs timeline esemény hozzáadva.
+                Nem sikerült betölteni a timeline eseményeket. Ellenőrizd, hogy fut-e a backend.
             </p>
         `;
-        return;
+
+        console.error(error);
     }
-
-    adminTimelineList.innerHTML = "";
-
-    events.forEach(function (eventItem, index) {
-        const item = document.createElement("div");
-        item.className = "admin-concert-item";
-
-        item.innerHTML = `
-            <h4>${eventItem.title}</h4>
-
-            <p><strong>Dátum:</strong> ${formatTimelineDate(eventItem.date)}</p>
-            <p><strong>Típus:</strong> ${eventItem.type}</p>
-            <p><strong>Leírás:</strong> ${eventItem.text.slice(0, 120)}...</p>
-
-            <div class="d-flex flex-wrap gap-2 mt-3">
-                <button class="btn btn-custom btn-sm" data-edit-timeline="${index}">
-                    Szerkesztés
-                </button>
-
-                <button class="btn btn-custom btn-sm" data-delete-timeline="${index}">
-                    Törlés
-                </button>
-            </div>
-        `;
-
-        adminTimelineList.appendChild(item);
-    });
-
-    const editButtons = document.querySelectorAll("[data-edit-timeline]");
-    const deleteButtons = document.querySelectorAll("[data-delete-timeline]");
-
-    editButtons.forEach(function (button) {
-        button.addEventListener("click", function () {
-            const index = Number(button.dataset.editTimeline);
-            editTimelineEvent(index);
-        });
-    });
-
-    deleteButtons.forEach(function (button) {
-        button.addEventListener("click", function () {
-            const index = Number(button.dataset.deleteTimeline);
-            deleteTimelineEvent(index);
-        });
-    });
 }
 
-function editTimelineEvent(index) {
-    const events = sortTimelineByDate(getTimelineEvents());
-    const eventItem = events[index];
+async function editTimelineEvent(id) {
+    try {
+        const events = await getTimelineEvents();
 
-    fillTimelineForm(eventItem, index);
+        const eventItem = events.find(function (item) {
+            return Number(item.id) === Number(id);
+        });
+
+        if (!eventItem) {
+            alert("Az esemény nem található.");
+            return;
+        }
+
+        fillTimelineForm(eventItem);
+    } catch (error) {
+        alert("Nem sikerült betölteni az eseményt.");
+        console.error(error);
+    }
 }
 
-function deleteTimelineEvent(index) {
-    const events = sortTimelineByDate(getTimelineEvents());
-
+async function removeTimelineEvent(id) {
     const sure = confirm("Biztosan törlöd ezt a timeline eseményt?");
 
     if (!sure) {
         return;
     }
 
-    events.splice(index, 1);
-    saveTimelineEvents(events);
-
-    resetTimelineFormMode();
-    renderAdminTimeline();
+    try {
+        await deleteTimelineEvent(id);
+        resetTimelineFormMode();
+        await renderAdminTimeline();
+    } catch (error) {
+        alert("Nem sikerült törölni az eseményt.");
+        console.error(error);
+    }
 }
 
 timelineForm.addEventListener("submit", async function (event) {
     event.preventDefault();
 
-    const events = sortTimelineByDate(getTimelineEvents());
-    const editIndex = timelineEditIndex.value;
-
-    let imageValue = "";
-
-    if (editIndex !== "") {
-        imageValue = events[Number(editIndex)].image || "";
-    }
+    const editId = timelineEditIndex.value;
+    let imageValue = currentEditImage;
 
     if (timelineImage.files.length > 0) {
         imageValue = await fileToBase64(timelineImage.files[0]);
     }
 
-    const newEvent = {
-        id: crypto.randomUUID(),
+    const eventItem = {
         title: timelineTitle.value.trim(),
         date: timelineDate.value,
         type: timelineType.value,
@@ -166,30 +208,67 @@ timelineForm.addEventListener("submit", async function (event) {
         image: imageValue
     };
 
-    if (editIndex === "") {
-        events.push(newEvent);
-    } else {
-        newEvent.id = events[Number(editIndex)].id;
-        events[Number(editIndex)] = newEvent;
+    if (!eventItem.title || !eventItem.date || !eventItem.text) {
+        alert("A cím, dátum és leírás kötelező.");
+        return;
     }
 
-    saveTimelineEvents(events);
+    try {
+        if (editId === "") {
+            await addTimelineEvent(eventItem);
+        } else {
+            await updateTimelineEvent(editId, eventItem);
+        }
 
-    resetTimelineFormMode();
-    renderAdminTimeline();
+        resetTimelineFormMode();
+        await renderAdminTimeline();
+    } catch (error) {
+        alert("Nem sikerült menteni az eseményt. Ellenőrizd, hogy fut-e a backend.");
+        console.error(error);
+    }
+});
+
+adminTimelineList.addEventListener("click", function (event) {
+    const editButton = event.target.closest("[data-edit-timeline]");
+    const deleteButton = event.target.closest("[data-delete-timeline]");
+
+    if (editButton) {
+        editTimelineEvent(Number(editButton.dataset.editTimeline));
+        return;
+    }
+
+    if (deleteButton) {
+        removeTimelineEvent(Number(deleteButton.dataset.deleteTimeline));
+    }
 });
 
 cancelTimelineEditButton.addEventListener("click", function () {
     resetTimelineFormMode();
 });
 
-resetTimelineButton.addEventListener("click", function () {
-    const sure = confirm("Biztosan visszaállítod az alap timeline eseményeket?");
+resetTimelineButton.addEventListener("click", async function () {
+    const sure = confirm("Biztosan visszaállítod az alap timeline eseményeket? Ez törli a mostaniakat.");
 
-    if (sure) {
-        resetTimelineEvents();
+    if (!sure) {
+        return;
+    }
+
+    try {
+        const events = await getTimelineEvents();
+
+        for (const eventItem of events) {
+            await deleteTimelineEvent(eventItem.id);
+        }
+
+        for (const defaultEvent of defaultTimelineEvents) {
+            await addTimelineEvent(defaultEvent);
+        }
+
         resetTimelineFormMode();
-        renderAdminTimeline();
+        await renderAdminTimeline();
+    } catch (error) {
+        alert("Nem sikerült visszaállítani az alap timeline-t.");
+        console.error(error);
     }
 });
 
