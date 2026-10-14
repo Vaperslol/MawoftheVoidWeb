@@ -1,4 +1,4 @@
-// Finom görgetéses animációk - Maw of the Void
+// Finom görgetéses animációk - N/A
 // Az elemek nem hirtelen jelennek meg, hanem áttűnéssel és enyhe mozgással úsznak be.
 
 const animatedSelectors = [

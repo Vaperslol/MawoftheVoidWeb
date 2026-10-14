@@ -1,15 +1,18 @@
 /* DARK MODE - alap */
-:root{
-    --bg-main: #050505;
-    --bg-section: #0d0d0d;
-    --bg-card: #151515;
-    --text-main: #f2f2f2;
-    --text-muted: #b5b5b5;
-    --accent: #c1121f;
-    --accent-hover: #e01e2d;
-    --border-color: #2b2b2b;
-    --shadow-color: rgba(0, 0, 0, 0.45);
-
+:root {
+    --bg-main: #060607;
+    --bg-section: #0c0c0e;
+    --bg-card: #141417;
+    --bg-card-hover: #1c1c20;
+    --text-main: #f4f4f6;
+    --text-muted: #9c9ca4;
+    --accent: #ffffff;
+    --accent-hover: #d1d1d6;
+    --accent-contrast: #060607;
+    --border-color: #27272c;
+    --border-hover: #484852;
+    --shadow-color: rgba(0, 0, 0, 0.65);
+    --glow-color: rgba(255, 255, 255, 0.12);
 }
 
 body {
@@ -18,17 +21,26 @@ body {
     font-family: Bahnschrift, "Segoe UI", Arial, Helvetica, sans-serif;
 }
 
+img {
+    filter: grayscale(100%);
+    transition: filter 0.3s ease;
+}
+
 /* LIGHT MODE */
 body.lightmode {
-    --bg-main: #f3f3f3;
+    --bg-main: #f5f5f7;
     --bg-section: #ffffff;
-    --bg-card: #eeeeee;
-    --text-main: #111111;
-    --text-muted: #555555;
-    --accent: #b00018;
-    --accent-hover: #d00024;
-    --border-color: #cccccc;
-    --shadow-color: rgba(0, 0, 0, 0.18);
+    --bg-card: #ececed;
+    --bg-card-hover: #e2e2e5;
+    --text-main: #09090b;
+    --text-muted: #52525b;
+    --accent: #09090b;
+    --accent-hover: #27272a;
+    --accent-contrast: #ffffff;
+    --border-color: #d1d1d6;
+    --border-hover: #a1a1aa;
+    --shadow-color: rgba(0, 0, 0, 0.12);
+    --glow-color: rgba(0, 0, 0, 0.08);
 
     background-color: var(--bg-main);
     color: var(--text-main);
@@ -87,7 +99,15 @@ body.lightmode {
 
 .navbar-toggler {
     border-color: var(--border-color);
-    background-color: var(--accent);
+    background-color: var(--bg-card);
+}
+
+.navbar-toggler-icon {
+    filter: invert(1);
+}
+
+body.lightmode .navbar-toggler-icon {
+    filter: none;
 }
 
 .dropdown-menu-custom {
@@ -101,7 +121,7 @@ body.lightmode {
 
 .dropdown-menu-custom .dropdown-item:hover {
     background-color: var(--accent);
-    color: white;
+    color: var(--accent-contrast);
 }
 
 .btn-custom {
@@ -114,12 +134,75 @@ body.lightmode {
 
 .btn-custom:hover {
     background-color: var(--accent);
-    color: white;
+    color: var(--accent-contrast);
     border-color: var(--accent);
+    box-shadow: 0 4px 18px var(--glow-color);
 }
 
 .btn-custom:focus {
-    box-shadow: 0 0 0 0.25rem rgba(193, 18, 31, 0.25);
+    box-shadow: 0 0 0 0.25rem var(--glow-color);
+}
+
+.btn-outline-custom {
+    background-color: rgba(255, 255, 255, 0.07);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    font-weight: 600;
+    transition: 0.25s ease;
+}
+
+.btn-outline-custom:hover {
+    background-color: var(--accent);
+    color: var(--accent-contrast);
+    border-color: var(--accent);
+    box-shadow: 0 4px 18px var(--glow-color);
+}
+
+.btn-outline-custom:focus {
+    box-shadow: 0 0 0 0.25rem var(--glow-color);
+}
+
+body.lightmode .btn-outline-custom {
+    background-color: #f1f2f6;
+    color: #111111;
+    border-color: #d1d5db;
+}
+
+body.lightmode .btn-outline-custom:hover {
+    background-color: var(--accent);
+    color: var(--accent-contrast);
+    border-color: var(--accent);
+}
+
+/* ========================================================
+   VEKTOROS VONALRAJZ IKONOK (LINE-ART ICONS)
+   ======================================================== */
+.line-icon {
+    display: inline-block;
+    width: 1.18em;
+    height: 1.18em;
+    vertical-align: -0.18em;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+    transition: transform 0.2s ease, stroke 0.2s ease;
+}
+
+.theme-preset-dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: -1px;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25);
+}
+
+body.lightmode .theme-preset-dot {
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
 }
 
 .hero {
@@ -177,7 +260,7 @@ body.lightmode {
 
     width: 55px;
     height: 55px;
-    border: 1px solid var(--accent);
+    border: 1px solid var(--border-hover);
     border-radius: 50%;
 
     background-color: var(--bg-card);
@@ -193,7 +276,8 @@ body.lightmode {
 
 #kapcsolo:hover {
     transform: scale(1.08);
-    background-color: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 16px var(--glow-color);
 }
 
 #kapcsolo img {
@@ -463,9 +547,9 @@ img { max-width: 100%; height: auto; }
     z-index: -1;
     border-radius: 20px;
     background:
-        radial-gradient(circle at center, rgba(193, 18, 31, 0.34), rgba(193, 18, 31, 0.06) 52%, transparent 72%);
+        radial-gradient(circle at center, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02) 52%, transparent 72%);
     box-shadow:
-        0 0 22px rgba(193, 18, 31, 0.28),
+        0 0 20px rgba(255, 255, 255, 0.08),
         0 10px 26px rgba(0, 0, 0, 0.42);
     opacity: 0.72;
     transition: opacity 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
@@ -473,14 +557,14 @@ img { max-width: 100%; height: auto; }
 
 .navbar-brand-logo:hover {
     transform: translateY(-1px);
-    filter: drop-shadow(0 0 8px rgba(193, 18, 31, 0.42));
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.25));
 }
 
 .navbar-brand-logo:hover::before {
     opacity: 1;
     transform: scale(1.06);
     box-shadow:
-        0 0 30px rgba(193, 18, 31, 0.45),
+        0 0 28px rgba(255, 255, 255, 0.18),
         0 12px 34px rgba(0, 0, 0, 0.52);
 }
 
@@ -586,9 +670,9 @@ body {
     z-index: -1;
     border-radius: 20px;
     background:
-        radial-gradient(circle at center, rgba(193, 18, 31, 0.34), rgba(193, 18, 31, 0.06) 54%, transparent 74%);
+        radial-gradient(circle at center, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02) 54%, transparent 74%);
     box-shadow:
-        0 0 22px rgba(193, 18, 31, 0.28),
+        0 0 20px rgba(255, 255, 255, 0.08),
         0 10px 26px rgba(0, 0, 0, 0.42);
     opacity: 0.72;
     transition: opacity 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
@@ -596,14 +680,14 @@ body {
 
 .navbar-brand-logo:hover {
     transform: translateY(-1px);
-    filter: drop-shadow(0 0 8px rgba(193, 18, 31, 0.42));
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.25));
 }
 
 .navbar-brand-logo:hover::before {
     opacity: 1;
     transform: scale(1.05);
     box-shadow:
-        0 0 30px rgba(193, 18, 31, 0.46),
+        0 0 28px rgba(255, 255, 255, 0.18),
         0 12px 34px rgba(0, 0, 0, 0.52);
 }
 
@@ -701,7 +785,7 @@ body.lightmode .navbar-brand-logo:hover .logo-text-light {
 
 .btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 24px rgba(193, 18, 31, 0.16);
+    box-shadow: 0 10px 24px var(--glow-color);
 }
 
 @keyframes motvFadeUp {

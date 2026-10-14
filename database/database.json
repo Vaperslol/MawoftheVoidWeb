@@ -1,0 +1,135 @@
+{
+    "news": [
+        {
+            "id": 1,
+            "title": "Megszület a banda",
+            "date": "2026-04-26",
+            "type": "Bejelentés",
+            "text": "Kesz",
+            "image": ""
+        },
+        {
+            "id": 2,
+            "title": "safgaersgeqageag",
+            "date": "0002-02-02",
+            "type": "Próba",
+            "text": "2",
+            "image": ""
+        }
+    ],
+    "concerts": [
+        {
+            "id": 1,
+            "title": "UMSZKI évnyitó koncert",
+            "date": "2026-09-01",
+            "time": "10:30",
+            "place": "UMSZKI",
+            "address": "1041 Budapest IV. ker., Görgey Artúr utca 26.",
+            "status": "private",
+            "entry": "Diák exkluzív",
+            "ticketOption": "no-ticket",
+            "ticketLink": "",
+            "streamOption": "no-stream",
+            "streamLink": "",
+            "recordingOption": "no-recording",
+            "recordingLink": ""
+        },
+        {
+            "id": 2,
+            "title": "UMSZKI 100 koncert",
+            "date": "2026-09-05",
+            "time": "11:00",
+            "place": "Budapest, UMSZKI",
+            "address": "1041 Budapest IV. ker., Görgey Artúr utca 26.",
+            "status": "private",
+            "entry": "UMSZKI-s diákoknak, volt diákoknak, tanároknak, volt tanároknak és hozzátartozóknak",
+            "ticketOption": "no-ticket",
+            "ticketLink": "",
+            "streamOption": "no-stream",
+            "streamLink": "",
+            "recordingOption": "no-recording",
+            "recordingLink": ""
+        }
+    ],
+    "timeline": [
+        {
+            "id": 1,
+            "title": "Az N/A elindul",
+            "date": "2026-05-01",
+            "type": "Alakulás",
+            "text": "A zenekar elkezdi összerakni a saját hangzását, az első ötletek és próbák alapján.",
+            "image": ""
+        },
+        {
+            "id": 2,
+            "title": "Első komolyabb próbák",
+            "date": "2026-06-01",
+            "type": "Próba",
+            "text": "A banda elkezd teljes dalokon dolgozni, kialakulnak az első riffek, témák és koncertötletek.",
+            "image": ""
+        },
+        {
+            "id": 3,
+            "title": "Első koncerttervek",
+            "date": "2026-09-01",
+            "type": "Koncert",
+            "text": "Megjelennek az első fellépésekhez kapcsolódó tervek és időpontok.",
+            "image": ""
+        },
+        {
+            "id": 4,
+            "title": "123213213123123",
+            "date": "0001-01-01",
+            "type": "Koncert",
+            "text": "2313123",
+            "image": ""
+        },
+        {
+            "id": 5,
+            "title": "123",
+            "date": "4000-01-01",
+            "type": "Galéria",
+            "text": "2312312",
+            "image": ""
+        }
+    ],
+    "messages": [
+        {
+            "id": 1,
+            "title": "efgqeeg",
+            "contact": "gegaegagea",
+            "location": "geaegega",
+            "text": "eggeaaeggaegae",
+            "createdAt": "2026-10-08T20:50:16.667Z",
+            "opened": false
+        }
+    ],
+    "gallery": [
+        {
+            "id": 1,
+            "title": "Tankcsapda peldak",
+            "date": "2026-03-30",
+            "description": "Tankcsapda",
+            "images": [
+                "http://localhost:3000/uploads/1779837246987-153006816-tankcsapda---egyed--l-a-vil--g-ellen.png",
+                "http://localhost:3000/uploads/1779837246991-720226041-tankcsapda---hatalom-n--lk--li-rend.png",
+                "http://localhost:3000/uploads/1779837246994-355098697-tankcsapda---l--lekhangokb--l--1-.png",
+                "http://localhost:3000/uploads/1779837246997-563287788-tankcsapda---l--lekhangokb--l.png",
+                "http://localhost:3000/uploads/1779837246999-988463189-tankcsapda---egyed--l-a-vil--g-ellen--1-.png"
+            ],
+            "createdAt": "2026-05-26T23:14:07.018Z"
+        },
+        {
+            "id": 2,
+            "title": "Monster",
+            "date": "0011-01-01",
+            "description": "1",
+            "images": [
+                "http://localhost:3000/uploads/1779837263998-367203617-f19d78aa-191c-452d-9b15-f959698d6888.png",
+                "http://localhost:3000/uploads/1779837264000-915475283-b51a3dd9-c4b8-4e12-82f4-1ea2dd25eb2a.png",
+                "http://localhost:3000/uploads/1779837264003-105659090-c04d7602-9590-4f16-98ed-db7c023e8c21.png"
+            ],
+            "createdAt": "2026-05-26T23:14:24.018Z"
+        }
+    ]
+}
